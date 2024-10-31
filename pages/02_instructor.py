@@ -3,7 +3,7 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 
-st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="collapsed")
 
 # CSV 파일 경로 설정
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
@@ -140,8 +140,9 @@ if st.button("조회"):
 
         # 필터링 결과 출력
         if not course_attendees.empty:
+            course_attendees.reset_index(drop=True, inplace=True)
+            course_attendees.index += 1  # 인덱스를 1부터 시작
             # 등록 여부 기준으로 정렬 (등록된 사람은 상단, 나머지는 이름 가나다 순)
-            course_attendees.index = course_attendees.index + 1
             course_attendees['등록'] = course_attendees['등록'].fillna("미등록")
             # 정확히 "등록"인 경우를 상단에 배치
             course_attendees['등록상태'] = course_attendees['등록'].apply(lambda x: 1 if x.strip() == "등록" else 0)
