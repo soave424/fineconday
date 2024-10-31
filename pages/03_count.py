@@ -30,7 +30,7 @@ if access_code == "z733":
     if data.empty:
         st.warning("데이터가 비어 있거나 CSV 파일을 찾을 수 없습니다.")
     else:
-        # 강좌 정보를 딕셔너리로 설정 (강좌명, 강사명, 강좌 코드, 강의실 정보)
+        # 강좌 정보 딕셔너리 설정
         course_info = {
             "경제교육보드게임, 캐쉬플로우": ("박민수쌤", "a0001", "미정"),
             "내 아이의 금융 문해력 기르기": ("댈님", "a0002", "미정"),
@@ -53,11 +53,9 @@ if access_code == "z733":
         # 각 강좌별 신청 인원 계산
         course_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']
         course_counts = data[course_columns].melt(value_name='강좌명').dropna()['강좌명'].value_counts()
-
-        # 데이터프레임으로 변환
         course_counts_df = course_counts.reset_index().rename(columns={'index': '강좌명', '강좌명': '신청 인원수'})
 
-        # 강좌 코드 추가
+        # 강좌 코드 열 추가
         course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("", ""))[1])
 
         # 정렬 방식 선택
@@ -67,22 +65,22 @@ if access_code == "z733":
             sorted_df = course_counts_df.sort_values(by='신청 인원수', ascending=False).reset_index(drop=True)
             st.table(sorted_df[['강좌명', '신청 인원수', '강좌 코드']])
         else:
-            # 강좌 코드 순으로 정렬 및 구분선 추가
+            # 강좌 코드 순 정렬 및 구분선 추가
             sorted_df = course_counts_df.sort_values(by='강좌 코드').reset_index(drop=True)
             st.title("강좌 코드 순으로 정렬된 신청 인원수")
 
             current_code_prefix = None
             for index, row in sorted_df.iterrows():
-              code_prefix = row['강좌 코드'][0] if row['강좌 코드'] else ""
-              
-              if code_prefix != current_code_prefix:
-                  if current_code_prefix is not None:
-                      st.markdown("---")  # 구분선 추가
-                  st.subheader(f"강좌 코드 '{code_prefix}' 시작 강좌 목록")
-                  current_code_prefix = code_prefix
-          
-              # 강좌명, 신청 인원수, 강좌 코드를 표 형식으로 출력
-              st.write(f"- **강좌명**: {row['강좌명']}  |  **신청 인원수**: {row['신청 인원수']}  |  **강좌 코드**: {row['강좌 코드']}")
+                code_prefix = row['강좌 코드'][0] if row['강좌 코드'] else ""
+                
+                if code_prefix != current_code_prefix:
+                    if current_code_prefix is not None:
+                        st.markdown("---")  # 구분선 추가
+                    st.subheader(f"강좌 코드 '{code_prefix}' 시작 강좌 목록")
+                    current_code_prefix = code_prefix
+                
+                # 강좌명, 신청 인원수, 강좌 코드를 표 형식으로 출력
+                st.write(f"- **강좌명**: {row['강좌명']}  |  **신청 인원수**: {row['신청 인원수']}  |  **강좌 코드**: {row['강좌 코드']}")
 
 else:
     st.warning("올바른 코드를 입력하세요.")
