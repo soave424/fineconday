@@ -21,31 +21,6 @@ def load_data():
 # 데이터 로드
 data = load_data()
 
-import streamlit as st
-import pandas as pd
-from dotenv import load_dotenv
-import os
-
-# 페이지 설정
-st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="collapsed")
-
-# 환경 변수 로드
-load_dotenv()
-
-# CSV 파일 경로 설정
-CSV_PATH = st.secrets["CSV_FILE_PATH"]
-
-# CSV 파일 로드 함수
-def load_data():
-    try:
-        return pd.read_csv(CSV_PATH)
-    except FileNotFoundError:
-        st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
-        return pd.DataFrame()
-
-# 데이터 로드
-data = load_data()
-
 # 사용자 입력으로 코드 확인
 access_code = st.text_input("코드를 입력하세요", type="password")
 
