@@ -73,18 +73,16 @@ if access_code == "z733":
 
             current_code_prefix = None
             for index, row in sorted_df.iterrows():
-                # 강좌 코드의 첫 글자 추출
-                code_prefix = row['강좌 코드'][0]
-                
-                # 새로운 코드 구분이 나오면 구분선을 추가
-                if code_prefix != current_code_prefix:
-                    if current_code_prefix is not None:
-                        st.markdown("---")  # 구분선 추가
-                    st.subheader(f"강좌 코드 '{code_prefix}' 시작 강좌 목록")
-                    current_code_prefix = code_prefix
-                
-                # 강좌명, 신청 인원수, 강좌 코드를 표 형식으로 출력
-                st.write(f"- **강좌명**: {row['강좌명']}  |  **신청 인원수**: {row['신청 인원수']}  |  **강좌 코드**: {row['강좌 코드']}")
+              code_prefix = row['강좌 코드'][0] if row['강좌 코드'] else ""
+              
+              if code_prefix != current_code_prefix:
+                  if current_code_prefix is not None:
+                      st.markdown("---")  # 구분선 추가
+                  st.subheader(f"강좌 코드 '{code_prefix}' 시작 강좌 목록")
+                  current_code_prefix = code_prefix
+          
+              # 강좌명, 신청 인원수, 강좌 코드를 표 형식으로 출력
+              st.write(f"- **강좌명**: {row['강좌명']}  |  **신청 인원수**: {row['신청 인원수']}  |  **강좌 코드**: {row['강좌 코드']}")
 
 else:
     st.warning("올바른 코드를 입력하세요.")
