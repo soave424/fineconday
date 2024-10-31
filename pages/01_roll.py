@@ -9,7 +9,7 @@ st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # CSV 파일 로드 함수
-@st.cache_data
+# @st.cache_data
 def load_data():
     try:
         return pd.read_csv(CSV_PATH)
