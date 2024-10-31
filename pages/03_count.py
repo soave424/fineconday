@@ -3,7 +3,7 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 
-# Set page configuration
+# Page config
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="collapsed")
 
 # Load environment variables
@@ -54,45 +54,21 @@ course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: co
 course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("", "", "미정"))[1])
 course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("", "", "미정"))[2])
 
+# Sort DataFrame by 강좌 코드 in the specified order
+desired_order = [
+    "a0001", "a0002", "a0003", "a0004", "a0005", "a0006",
+    "b0001", "b0002", "b0003", "b0004", "b0005",
+    "c0001", "c0002", "c0003", "c0004", "c0005"
+]
+course_counts_df['강좌 코드'] = pd.Categorical(course_counts_df['강좌 코드'], categories=desired_order, ordered=True)
+sorted_df = course_counts_df.sort_values('강좌 코드').reset_index(drop=True)
+
 # Access code verification
 access_code = st.text_input("코드를 입력하세요", type="password")
 if access_code == "z733":
     st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
-
-    # Display sorting options in a single row
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        if st.button("강좌명"):
-            st.session_state.sort_column = '강좌명'
-            st.session_state.sort_ascending = not st.session_state.get('sort_ascending', True)
-    with col2:
-        if st.button("강사명"):
-            st.session_state.sort_column = '강사명'
-            st.session_state.sort_ascending = not st.session_state.get('sort_ascending', True)
-    with col3:
-        if st.button("신청 인원수"):
-            st.session_state.sort_column = '신청 인원수'
-            st.session_state.sort_ascending = not st.session_state.get('sort_ascending', True)
-    with col4:
-        if st.button("강좌 코드"):
-            st.session_state.sort_column = '강좌 코드'
-            st.session_state.sort_ascending = not st.session_state.get('sort_ascending', True)
-    with col5:
-        if st.button("장소"):
-            st.session_state.sort_column = '장소'
-            st.session_state.sort_ascending = not st.session_state.get('sort_ascending', True)
-
-    # Set default sorting state if not set
-    if 'sort_column' not in st.session_state:
-        st.session_state['sort_column'] = '강좌명'
-        st.session_state['sort_ascending'] = True
-
-    # Sort DataFrame based on selected column and order
-    sorted_df = course_counts_df.sort_values(
-        by=st.session_state['sort_column'], ascending=st.session_state['sort_ascending']
-    ).reset_index(drop=True)
-
-    # Display sorted table
+    
+    # Display the sorted table
     st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
 
 else:
