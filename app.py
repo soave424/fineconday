@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # 탭 생성
-tab1, tab2, tab3 = st.tabs(["공지", "강좌 정보", "찾아오는 길"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["공지", "강좌 정보", "찾아오는 길","점심 안내", "뒷풀이 신청"])
 
 # 탭 1: 공지
 with tab1:
@@ -85,3 +85,11 @@ with tab3:
     지하철 이용 시: 여의도역(5, 9호선) 4번 출구 이용
     """)
     st.image("image/map.png", caption="", use_column_width=True)
+
+# 탭 4: 점심 안내
+with tab4:
+    st.header("점심 안내")
+
+# 탭 5: 뒷풀이 신청
+with tab5:
+    st.header("뒷풀이 신청")
