@@ -149,7 +149,6 @@ if st.button("조회"):
             ).drop(columns=['등록상태'])
 
             # 신청자 목록을 테이블 형식으로 출력
-            course_attendees.reset_index(drop=True, inplace=True)
             course_attendees.index += 1  # 인덱스를 1부터 시작
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
             st.table(course_attendees[['이름', '지역', '등록']].reset_index(drop=True))
