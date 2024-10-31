@@ -69,6 +69,7 @@ with tab1:
     (서울 영등포구 여의나루로 67-8)  
     지하철 이용 시: 여의도역(5, 9호선) 4번 출구 이용
     """)
+    st.image("image/maininfo.jpg", caption="메인포스터", use_column_width=True)
 
 # 탭 2: 강좌 정보
 with tab2:
