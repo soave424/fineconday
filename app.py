@@ -69,14 +69,18 @@ with tab1:
     (서울 영등포구 여의나루로 67-8)  
     지하철 이용 시: 여의도역(5, 9호선) 4번 출구 이용
     """)
-    st.image("image/map.png", caption="", use_column_width=True)
 
 # 탭 2: 강좌 정보
 with tab2:
     st.header("강좌 정보")
-    st.image("image/2.png", caption="강좌 안내", use_column_width=True)
+    st.image("image/special.png", caption="강좌 안내", use_column_width=True)
 
 # 탭 3: 찾아오는 길
 with tab3:
     st.header("찾아오는 길")
-    st.image("image/map.png", caption="전국투자자교육협의회 위치", use_column_width=True)
+    st.markdown("""
+    ✅ **장소**: 전국투자자교육협의회 6, 7층  
+    (서울 영등포구 여의나루로 67-8)  
+    지하철 이용 시: 여의도역(5, 9호선) 4번 출구 이용
+    """)
+    st.image("image/map.png", caption="", use_column_width=True)
