@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
-
 # 환경 변수에서 CSV 파일 경로 가져오기
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
