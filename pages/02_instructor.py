@@ -140,8 +140,6 @@ if st.button("조회"):
 
         # 필터링 결과 출력
         if not course_attendees.empty:
-            course_attendees.reset_index(drop=True, inplace=True)
-            course_attendees.index += 1  # 인덱스를 1부터 시작
             # 등록 여부 기준으로 정렬 (등록된 사람은 상단, 나머지는 이름 가나다 순)
             course_attendees['등록'] = course_attendees['등록'].fillna("미등록")
             # 정확히 "등록"인 경우를 상단에 배치
@@ -151,6 +149,8 @@ if st.button("조회"):
             ).drop(columns=['등록상태'])
 
             # 신청자 목록을 테이블 형식으로 출력
+            course_attendees.reset_index(drop=True, inplace=True)
+            course_attendees.index += 1  # 인덱스를 1부터 시작
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
             st.table(course_attendees[['이름', '지역', '등록']].reset_index(drop=True))
         else:
