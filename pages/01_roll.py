@@ -42,7 +42,7 @@ st.markdown("""
         .home-button:hover {
             background-color: #3b5cc6;
         }
-        /* 테이블 스타일 */
+       /* 테이블 스타일 */
         .styled-table {
             width: 100%;
             border-collapse: collapse;
@@ -51,28 +51,27 @@ st.markdown("""
             font-family: sans-serif;
             min-width: 400px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            border: 2px solid #5dc9f7;
         }
-        .styled-table th, .styled-table td {
-            padding: 12px 15px;
-            text-align: left;
-        }
-        .styled-table thead tr {
-            background-color: #009879;
+        .styled-table th {
+            background-color: #5dc9f7;
             color: #ffffff;
             text-align: left;
+            padding: 12px 15px;
         }
-        .styled-table tbody tr {
+        .styled-table td {
+            padding: 12px 15px;
+            text-align: left;
             border-bottom: 1px solid #dddddd;
         }
         .styled-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
+            background-color: #e8f8ff;
+        }
+        .styled-table tbody tr:hover {
+            background-color: #d6efff;
         }
         .styled-table tbody tr:last-of-type {
-            border-bottom: 2px solid #009879;
-        }
-        .styled-table tbody tr.active-row {
-            font-weight: bold;
-            color: #009879;
+            border-bottom: 2px solid #5dc9f7;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -134,6 +133,9 @@ if st.button("시간표 조회"):
 
         # 테이블 형식으로 강좌 출력
         course_df = pd.DataFrame(course_data)
+        course_df.index = course_df.index + 1
+        st.table(course_df)
+
         st.write(f"{user_name}님의 강좌 목록:")
         
         # 스타일 테이블 렌더링
