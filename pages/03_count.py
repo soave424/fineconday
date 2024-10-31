@@ -3,7 +3,7 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 
-# Set up the page
+# Page configuration
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="collapsed")
 
 # Load environment variables
@@ -51,24 +51,43 @@ course_counts = data[course_columns].melt(value_name='강좌명').dropna()['강�
 course_counts_df = pd.DataFrame(course_counts).reset_index()
 course_counts_df.columns = ['강좌명', '신청 인원수']
 
-# Automatically populate 강사명, 강좌 코드, 장소 columns
-course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("정보 없음", "코드 없음", "미정"))[0])
-course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("정보 없음", "코드 없음", "미정"))[1])
-course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("정보 없음", "코드 없음", "미정"))[2])
+# Split 강좌명 and add details from course_info
+course_counts_df[['강좌명', '강사명']] = course_counts_df['강좌명'].str.split('/', expand=True)
+course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("정보 없음",))[0])
+course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "코드 없음",))[1])
+course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "", "미정"))[2])
 
 # Access code verification
 access_code = st.text_input("코드를 입력하세요", type="password")
 if access_code == "z733":
     st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
 
-    # Sorting options
-    sort_column = st.selectbox("정렬할 열을 선택하세요", options=['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소'])
-    sort_order = st.radio("정렬 순서 선택", options=["오름차순", "내림차순"])
+    # Display sorting buttons in a single row
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        sort_by_name = st.button("강좌명 기준 정렬")
+    with col2:
+        sort_by_instructor = st.button("강사명 기준 정렬")
+    with col3:
+        sort_by_count = st.button("신청 인원수 기준 정렬")
+    with col4:
+        sort_by_code = st.button("강좌 코드 기준 정렬")
+    with col5:
+        sort_by_location = st.button("장소 기준 정렬")
 
-    ascending = True if sort_order == "오름차순" else False
-
-    # Sort the DataFrame based on selected options
-    sorted_df = course_counts_df.sort_values(by=sort_column, ascending=ascending).reset_index(drop=True)
+    # Determine sorting based on button clicks
+    if sort_by_name:
+        sorted_df = course_counts_df.sort_values(by="강좌명").reset_index(drop=True)
+    elif sort_by_instructor:
+        sorted_df = course_counts_df.sort_values(by="강사명").reset_index(drop=True)
+    elif sort_by_count:
+        sorted_df = course_counts_df.sort_values(by="신청 인원수", ascending=False).reset_index(drop=True)
+    elif sort_by_code:
+        sorted_df = course_counts_df.sort_values(by="강좌 코드").reset_index(drop=True)
+    elif sort_by_location:
+        sorted_df = course_counts_df.sort_values(by="장소").reset_index(drop=True)
+    else:
+        sorted_df = course_counts_df  # Default unsorted if no button is clicked
 
     # Display the sorted table
     st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
