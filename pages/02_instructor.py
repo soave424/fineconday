@@ -138,24 +138,21 @@ if st.button("조회"):
             )
         ]
 
-        # 필터링 결과 출력
+        # 강좌 신청 조회 코드의 일부 수정
         if not course_attendees.empty:
-            # 등록 여부 기준으로 정렬 (등록된 사람은 상단, 나머지는 이름 가나다 순)
-            course_attendees['등록'] = course_attendees['등록'].fillna("미등록")
-            # 정확히 "등록"인 경우를 상단에 배치
+            # '등록' 열의 값이 정확히 "등록"인 경우 상단에 배치하고 나머지는 이름 가나다순으로 정렬
             course_attendees['등록상태'] = course_attendees['등록'].apply(lambda x: 1 if x.strip() == "등록" else 0)
             course_attendees = course_attendees.sort_values(
                 by=['등록상태', '이름'], ascending=[False, True]
             ).drop(columns=['등록상태'])
 
-            # 신청자 목록을 DataFrame으로 변환하여 인덱스를 1부터 시작하도록 설정
-            course_attendees.reset_index(drop=True, inplace=True)
-            course_attendees.index += 2  # 인덱스를 1부터 시작
+            # 1부터 시작하는 인덱스 열 추가
+            course_attendees = course_attendees.reset_index(drop=True)
+            course_attendees['번호'] = course_attendees.index + 1
 
-            # 신청자 목록을 테이블 형식으로 출력
+            # 필요한 열만 선택하여 '번호'를 포함하여 출력
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
-            st.table(course_attendees[['이름', '지역', '등록']].reset_index(drop=True))
-
+            st.table(course_attendees[['번호', '이름', '지역', '등록']])
         else:
             st.warning(f"'{display_course_name}' 강좌에 신청한 사람이 없습니다.")
     else:
