@@ -9,7 +9,7 @@ st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # CSV 파일 로드 함수
-# @st.cache_data
+@st.cache_data
 def load_data():
     try:
         return pd.read_csv(CSV_PATH)
@@ -40,6 +40,38 @@ st.markdown("""
         }
         .home-button:hover {
             background-color: #3b5cc6;
+        }
+            /* 테이블 스타일 */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1.1em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+        .styled-table tbody tr.active-row {
+            font-weight: bold;
+            color: #009879;
         }
     </style>
 """, unsafe_allow_html=True)
