@@ -57,6 +57,9 @@ course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: co
 course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "코드 없음",))[1])
 course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "", "미정"))[2])
 
+# Set default sorted_df for display before any button click
+sorted_df = course_counts_df.copy()
+
 # Initialize session state variables for sorting direction
 if "sort_by_name_asc" not in st.session_state:
     st.session_state.sort_by_name_asc = True
