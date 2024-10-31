@@ -15,3 +15,6 @@ def load_data():
 
 # 데이터 로드
 data = load_data()
+
+st.write("현재 작업 디렉토리:", os.getcwd())
+st.write("현재 디렉토리의 파일 목록:", os.listdir('.'))
