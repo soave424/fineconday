@@ -150,7 +150,7 @@ if st.button("조회"):
 
             # 신청자 목록을 DataFrame으로 변환하여 인덱스를 1부터 시작하도록 설정
             course_attendees.reset_index(drop=True, inplace=True)
-            course_attendees.index += 1  # 인덱스를 1부터 시작
+            course_attendees.index += 2  # 인덱스를 1부터 시작
 
             # 신청자 목록을 테이블 형식으로 출력
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
