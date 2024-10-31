@@ -36,7 +36,7 @@ course_info = {
     "이렇게만 따라하세요! 20대 내 집 마련 루트": ("가드닝쌤", "b0003", "미정"),
     "내집마련 도전기: 꿈을 현실로 만드는 첫걸음": ("먹태쌤", "b0004", "미정"),
     "은또링샘의 친절한 재무제표 분석 (feat. 미리 캔버스)": ("은또링쌤", "b0005", "미정"),
-    "교사를 위한 퍼스널 브랜딩 & 꼬꼬무 부수입": ("진격의홍쌤", "c0001", "미정"),
+    "교사를 위한 퍼스널 브랜딩 & 꼬꼬무 부수입 by 진격의홍쌤": ("진격의홍쌤", "c0001", "미정"),
     "미친 자에게 건배를: 부동산 투자에 미친 자의 이야기": ("다니쌤", "c0002", "미정"),
     "부린이도 할 수 있다! 같은 돈으로 더 오르는 내집 마련 A to Z": ("홍당무쌤", "c0003", "미정"),
     "소비형 인간에서 저축형 인간 마인드셋하기": ("따롱쌤", "c0004", "미정"),
@@ -57,6 +57,18 @@ course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: co
 course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "코드 없음",))[1])
 course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "", "미정"))[2])
 
+# Initialize session state variables for sorting direction
+if "sort_by_name_asc" not in st.session_state:
+    st.session_state.sort_by_name_asc = True
+if "sort_by_instructor_asc" not in st.session_state:
+    st.session_state.sort_by_instructor_asc = True
+if "sort_by_count_asc" not in st.session_state:
+    st.session_state.sort_by_count_asc = True
+if "sort_by_code_asc" not in st.session_state:
+    st.session_state.sort_by_code_asc = True
+if "sort_by_location_asc" not in st.session_state:
+    st.session_state.sort_by_location_asc = True
+
 # Access code verification
 access_code = st.text_input("코드를 입력하세요", type="password")
 if access_code == "z733":
@@ -65,29 +77,25 @@ if access_code == "z733":
     # Display sorting buttons in a single row
     col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
-        sort_by_name = st.button("강좌명 기준 정렬")
+        if st.button("강좌명 기준 정렬"):
+            st.session_state.sort_by_name_asc = not st.session_state.sort_by_name_asc
+            sorted_df = course_counts_df.sort_values(by="강좌명", ascending=st.session_state.sort_by_name_asc)
     with col2:
-        sort_by_instructor = st.button("강사명 기준 정렬")
+        if st.button("강사명 기준 정렬"):
+            st.session_state.sort_by_instructor_asc = not st.session_state.sort_by_instructor_asc
+            sorted_df = course_counts_df.sort_values(by="강사명", ascending=st.session_state.sort_by_instructor_asc)
     with col3:
-        sort_by_count = st.button("신청 인원수 기준 정렬")
+        if st.button("신청 인원수 기준 정렬"):
+            st.session_state.sort_by_count_asc = not st.session_state.sort_by_count_asc
+            sorted_df = course_counts_df.sort_values(by="신청 인원수", ascending=st.session_state.sort_by_count_asc)
     with col4:
-        sort_by_code = st.button("강좌 코드 기준 정렬")
+        if st.button("강좌 코드 기준 정렬"):
+            st.session_state.sort_by_code_asc = not st.session_state.sort_by_code_asc
+            sorted_df = course_counts_df.sort_values(by="강좌 코드", ascending=st.session_state.sort_by_code_asc)
     with col5:
-        sort_by_location = st.button("장소 기준 정렬")
-
-    # Determine sorting based on button clicks
-    if sort_by_name:
-        sorted_df = course_counts_df.sort_values(by="강좌명").reset_index(drop=True)
-    elif sort_by_instructor:
-        sorted_df = course_counts_df.sort_values(by="강사명").reset_index(drop=True)
-    elif sort_by_count:
-        sorted_df = course_counts_df.sort_values(by="신청 인원수", ascending=False).reset_index(drop=True)
-    elif sort_by_code:
-        sorted_df = course_counts_df.sort_values(by="강좌 코드").reset_index(drop=True)
-    elif sort_by_location:
-        sorted_df = course_counts_df.sort_values(by="장소").reset_index(drop=True)
-    else:
-        sorted_df = course_counts_df  # Default unsorted if no button is clicked
+        if st.button("장소 기준 정렬"):
+            st.session_state.sort_by_location_asc = not st.session_state.sort_by_location_asc
+            sorted_df = course_counts_df.sort_values(by="장소", ascending=st.session_state.sort_by_location_asc)
 
     # Display the sorted table
     st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
