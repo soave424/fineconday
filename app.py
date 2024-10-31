@@ -90,6 +90,15 @@ with tab3:
 # 탭 4: 점심 안내
 with tab4:
     st.header("점심 안내")
+    st.markdown(
+    """
+    <div class="button-container">
+        <a class="button-link" href="https://forms.gle/QfXYQrMgHWakHfux8" target="_self">점심메뉴 신청하기🌯</a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # 탭 5: 뒷풀이 신청
 with tab5:
