@@ -148,10 +148,13 @@ if st.button("조회"):
                 by=['등록상태', '이름'], ascending=[False, True]
             ).drop(columns=['등록상태'])
 
+            # 신청자 목록을 DataFrame으로 변환하여 인덱스를 1부터 시작하도록 설정
+            course_attendees.reset_index(drop=True, inplace=True)
+            course_attendees.index += 1  # 인덱스를 1부터 시작
+
             # 신청자 목록을 테이블 형식으로 출력
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
             st.table(course_attendees[['이름', '지역', '등록']].reset_index(drop=True))
-            course_attendees.index += 1  # 인덱스를 1부터 시작
 
         else:
             st.warning(f"'{display_course_name}' 강좌에 신청한 사람이 없습니다.")
