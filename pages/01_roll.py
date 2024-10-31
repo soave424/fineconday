@@ -67,6 +67,9 @@ st.markdown("""
         .styled-table tbody tr:nth-of-type(even) {
             background-color: #e6f3f8;
         }
+        .styled-table tbody tr:hover {
+            background-color: #d6efff;
+        }
         .styled-table tbody tr:last-of-type {
             border-bottom: 2px solid #5eb4d6;
         }
