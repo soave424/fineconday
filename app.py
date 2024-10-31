@@ -6,7 +6,7 @@ import os
 # 페이지 설정
 st.set_page_config(
     page_title="경제금융교육연구회",
-    page_icon="image/pre.png",
+    icon="image/pre.png",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
