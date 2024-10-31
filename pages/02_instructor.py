@@ -20,7 +20,7 @@ st.markdown("""
 
         /* "오프연수 홈으로" 버튼 스타일 */
         .home-button {
-            background-color: #4c6ef5;
+            background-color: #4ca2bf;
             color: white !important;
             padding: 8px 16px;
             border-radius: 8px;
@@ -115,7 +115,7 @@ for column in required_columns:
 st.markdown("""
     <div class="title-button-container">
         <h1>강좌 신청 조회 및 등록 관리</h1>
-        <a href="/" class="home-button">오프연수 홈으로</a>
+        <a href="/" class="home-button">홈으로</a>
     </div>
 """, unsafe_allow_html=True)
 

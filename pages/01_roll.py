@@ -3,7 +3,7 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 
-st.set_page_config(layout="wide",     page_icon="image/pre.png", initial_sidebar_state="collapsed")
+st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="collapsed")
 
 # CSV 파일 경로 설정
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
@@ -31,7 +31,7 @@ st.markdown("""
             margin-bottom: 20px;
         }
         .home-button {
-            background-color: #4c6ef5;
+            background-color: #4ca2bf;
             color: white !important;
             padding: 8px 16px;
             border-radius: 8px;
