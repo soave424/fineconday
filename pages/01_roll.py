@@ -10,6 +10,7 @@ CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # CSV 파일 로드 함수
 # @st.cache_data
+# CSV 파일 로드 함수 (매번 새로 로드하도록 설정)
 def load_data():
     try:
         return pd.read_csv(CSV_PATH)
@@ -20,7 +21,7 @@ def load_data():
 # 데이터 로드
 data = load_data()
 
-# CSS 스타일 추가
+# 페이지 스타일 및 사용자 입력
 st.markdown("""
     <style>
         .title-container {
@@ -41,7 +42,7 @@ st.markdown("""
         .home-button:hover {
             background-color: #3b5cc6;
         }
-            /* 테이블 스타일 */
+        /* 테이블 스타일 */
         .styled-table {
             width: 100%;
             border-collapse: collapse;
@@ -117,6 +118,9 @@ if st.button("시간표 조회"):
     user_data = data[(data['이름'] == name) & (data['전화번호_뒷자리'] == phone_suffix)]
 
     if not user_data.empty:
+        # 이름(지역) 포맷
+        user_name = f"{name} ({user_data['지역'].iloc[0]})"
+        
         # 강좌 정보 테이블 생성
         courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
         course_data = []
@@ -130,8 +134,10 @@ if st.button("시간표 조회"):
 
         # 테이블 형식으로 강좌 출력
         course_df = pd.DataFrame(course_data)
-        st.write(f"{name}님의 강좌 목록:")
-        st.table(course_df)
+        st.write(f"{user_name}님의 강좌 목록:")
+        
+        # 스타일 테이블 렌더링
+        st.markdown(course_df.to_html(classes="styled-table"), unsafe_allow_html=True)
 
     else:
         st.warning("해당 이름과 전화번호 뒷자리에 해당하는 정보가 없습니다.")
