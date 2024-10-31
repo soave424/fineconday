@@ -134,7 +134,6 @@ if st.button("시간표 조회"):
         # 테이블 형식으로 강좌 출력
         course_df = pd.DataFrame(course_data)
         course_df.index = course_df.index + 1
-        st.table(course_df)
 
         st.write(f"{user_name}님의 강좌 목록:")
         
