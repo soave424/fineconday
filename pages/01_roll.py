@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 # 환경 변수에서 CSV 파일 경로 불러오기
-CSV_PATH = os.getenv('CSV_FILE_PATH', 'data/hidden_data.csv')
+CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # CSV 파일 불러오기 함수
 @st.cache_data
