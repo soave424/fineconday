@@ -51,27 +51,28 @@ st.markdown("""
             font-family: sans-serif;
             min-width: 400px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-            border: 2px solid #5dc9f7;
         }
-        .styled-table th {
-            background-color: #5dc9f7;
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .styled-table thead tr {
+            background-color: #5eb4d6;
             color: #ffffff;
             text-align: left;
-            padding: 12px 15px;
         }
-        .styled-table td {
-            padding: 12px 15px;
-            text-align: left;
+        .styled-table tbody tr {
             border-bottom: 1px solid #dddddd;
         }
         .styled-table tbody tr:nth-of-type(even) {
-            background-color: #e8f8ff;
-        }
-        .styled-table tbody tr:hover {
-            background-color: #d6efff;
+            background-color: #e6f3f8;
         }
         .styled-table tbody tr:last-of-type {
-            border-bottom: 2px solid #5dc9f7;
+            border-bottom: 2px solid #5eb4d6;
+        }
+        .styled-table tbody tr.active-row {
+            font-weight: bold;
+            color: #5eb4d6;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -100,7 +101,7 @@ course_info = {
 st.markdown("""
     <div class="title-container">
         <h1>강좌 시간표 확인</h1>
-        <a href="/" class="home-button">홈으로</a>
+        <a href="/" target="_self" class="home-button">홈으로</a>
     </div>
 """, unsafe_allow_html=True)
 
