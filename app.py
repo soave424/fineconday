@@ -6,10 +6,11 @@ import os
 # 페이지 설정
 st.set_page_config(
     page_title="경제금융교육연구회",
-    icon="image/pre.png",
+    page_icon="image/pre.png",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="collapsed",
 )
+
 
 # 탭 생성
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["공지", "강좌 정보", "찾아오는 길","점심 안내", "뒷풀이 신청"])
