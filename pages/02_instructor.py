@@ -114,7 +114,7 @@ for column in required_columns:
 # 페이지 제목과 홈 버튼
 st.markdown("""
     <div class="title-button-container">
-        <h1>강좌 신청 조회 및 등록 관리</h1>
+        <h1>강사용 등록부 확인 및 관리</h1>
         <a href="/" class="home-button">홈으로</a>
     </div>
 """, unsafe_allow_html=True)
