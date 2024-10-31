@@ -79,7 +79,11 @@ if access_code == "z733":
             # Display with time slot separators
             current_prefix = ""
             for index, row in sorted_df.iterrows():
-                code_prefix = row['코드'][0]  # Get 'a', 'b', or 'c' from the code
+                code = row['코드']
+                if pd.notna(code) and code:
+                    code_prefix = code[0]  # Get 'a', 'b', or 'c' from the code
+                else:
+                    continue  # Skip rows without a valid code
                 
                 # Insert separator if a new time slot prefix is encountered
                 if code_prefix != current_prefix:
