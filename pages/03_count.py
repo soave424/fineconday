@@ -53,7 +53,10 @@ if access_code == "z733":
         # 각 강좌별 신청 인원 계산
         course_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']
         course_counts = data[course_columns].melt(value_name='강좌명').dropna()['강좌명'].value_counts()
-        course_counts_df = course_counts.reset_index().rename(columns={'index': '강좌명', '강좌명': '신청 인원수'})
+
+        # 강좌명과 인원수를 데이터프레임으로 변환
+        course_counts_df = pd.DataFrame(course_counts).reset_index()
+        course_counts_df.columns = ['강좌명', '신청 인원수']  # 열 이름 지정
 
         # 강좌 코드 열 추가
         course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("", ""))[1])
