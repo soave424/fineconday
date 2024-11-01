@@ -152,7 +152,7 @@ if st.button("조회"):
 
             # 필요한 열만 선택하여 '번호'를 포함하여 출력
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
-            st.table(course_attendees[['번호', '이름', '지역', '등록상태']].set_index('번호'))
+            st.table(course_attendees[['번호', '이름', '지역', '등록']].set_index('번호'))
         else:
             st.warning(f"'{display_course_name}' 강좌에 신청한 사람이 없습니다.")
     else:
