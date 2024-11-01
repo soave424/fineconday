@@ -99,7 +99,7 @@ if access_code == "z733":
             st.session_state.sort_by_count_asc = not st.session_state.sort_by_count_asc
             sorted_df = course_counts_df.sort_values(by="신청 인원수", ascending=st.session_state.sort_by_count_asc)
     with col4:
-        if st.button("강좌 코드 정렬"):
+        if st.button("강좌 정렬"):
             st.session_state.sort_by_code_asc = not st.session_state.sort_by_code_asc
             sorted_df = course_counts_df.sort_values(by="강좌 코드", ascending=st.session_state.sort_by_code_asc)
     with col5:
