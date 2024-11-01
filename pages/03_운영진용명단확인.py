@@ -141,7 +141,7 @@ if access_code == "z733":
         """
         <div class="button-container">
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_self">신청시트원본</a>
-            <a class="button-link" href="#" onclick="window.open('https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?usp=sharing', '_blank')">강좌별명단</a>
+            <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?gid=0#gid=0" target="_self">강좌별명단</a>
         </div>
         """,
         unsafe_allow_html=True
