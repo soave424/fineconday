@@ -108,12 +108,16 @@ if access_code == "z733":
     # Display the sorted table
     st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
 
-    # Add two buttons at the bottom, in a single row
-    col_a, col_b = st.columns(2)
-    with col_a:
-        st.button("신청시트원본", on_click=lambda: st.write("https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit"))
-    with col_b:
-        st.button("강좌별목록구글", on_click=lambda: st.write("https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?usp=sharing"))
+
+    st.markdown(
+        """
+        <div class="button-container">
+            <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_self">신청시트원본</a>
+            <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?usp=sharing" target="_blank">강좌별명단</a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 else:
     st.warning("올바른 코드를 입력하세요.")
