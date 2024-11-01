@@ -83,7 +83,7 @@ st.markdown("""
 # 강좌 정보 사전
 course_info = {
     "초등형 MBTI 클래시파이 : 웹개발스토리와 감정소진없이 학급경영하기": ("김태림쌤", "미정"),
-    "창업과 투자 그리고 기업가정신까지!? 일석삼조 효과의 '어쩌다 초등 사장' 프로젝트": ("쭈니쌤", "미정"),
+    "창업과 투자 그리고 기업가정신까지!? 일석삼조 효과의 '어쩌다 초등 사장' 프로젝트": ("쭈니쌤", "미정","https://blog.naver.com/prologue/PrologueList.naver?blogId=wnsgud3061&skinType=&skinId=&from=menu&userSelectMenu=true"),
     "경제교육보드게임, 캐쉬플로우": ("박민수쌤", "미정"),
     "왕초보도 따라하는 학급화폐 1년 로드맵": ("좋아유쌤", "미정"),
     "내 아이의 금융 문해력 기르기": ("댈님", "미정"),
@@ -132,8 +132,9 @@ if st.button("시간표 조회"):
             if pd.notna(course):
                 parts = course.split('/')
                 course_name = parts[0].strip()
-                instructor, classroom = course_info.get(course_name, ("", ""))
-                course_data.append({"강좌명": course_name, "강사명": instructor, "강의실": classroom})
+                instructor, classroom, link = course_info.get(course_name, ("", "미정", "#"))
+                course_link = f"<a href='{link}' target='_blank'>{course_name}</a>"
+                course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
 
         # 테이블 형식으로 강좌 출력
         course_df = pd.DataFrame(course_data)
