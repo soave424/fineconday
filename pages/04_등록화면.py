@@ -10,7 +10,6 @@ load_dotenv()
 CSV_PATH = os.getenv("CSV_FILE_PATH", "data.csv")
 
 # CSV 파일 로드 함수
-@st.cache_data
 def load_data():
     return pd.read_csv(CSV_PATH)
 
