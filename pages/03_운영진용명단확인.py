@@ -84,15 +84,16 @@ if access_code == "z733":
     
     # Display sorting buttons in a single row
     col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        if st.button("강좌명 기준 정렬"):
-            st.session_state.sort_by_name_asc = not st.session_state.sort_by_name_asc
-            sorted_df = course_counts_df.sort_values(by="강좌명", ascending=st.session_state.sort_by_name_asc)
+    # with col1:
+    #     if st.button("강좌명 기준 정렬"):
+    #         st.session_state.sort_by_name_asc = not st.session_state.sort_by_name_asc
+    #         sorted_df = course_counts_df.sort_values(by="강좌명", ascending=st.session_state.sort_by_name_asc)
             
-    with col2:
-        if st.button("강사명 기준 정렬"):
-            st.session_state.sort_by_instructor_asc = not st.session_state.sort_by_instructor_asc
-            sorted_df = course_counts_df.sort_values(by="강사명", ascending=st.session_state.sort_by_instructor_asc)
+    # with col2:
+    #     if st.button("강사명 기준 정렬"):
+    #         st.session_state.sort_by_instructor_asc = not st.session_state.sort_by_instructor_asc
+    #         sorted_df = course_counts_df.sort_values(by="강사명", ascending=st.session_state.sort_by_instructor_asc)
+ 
     with col3:
         if st.button("신청 인원수 기준 정렬"):
             st.session_state.sort_by_count_asc = not st.session_state.sort_by_count_asc
