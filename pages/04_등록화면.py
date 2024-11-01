@@ -14,6 +14,8 @@ load_dotenv()
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # Function to load data from the CSV file
+st.cache_resource.clear()
+st.cache_data.clear()
 def load_data():
     try:
         return pd.read_csv(CSV_PATH)
