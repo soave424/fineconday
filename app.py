@@ -11,14 +11,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-st.sidebar.markdown(
-    f"""
-    <a href="https://cafe.naver.com/financialeducation" target="_blank">
-        <img src="image/logo.png" style="width: 100%;">
-    </a>
-    """,
-    unsafe_allow_html=True
-)
+st.logo("image/logo.png", size="medium", link="https://cafe.naver.com/financialeducation")
 
 
 
