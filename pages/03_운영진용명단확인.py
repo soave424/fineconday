@@ -77,7 +77,7 @@ access_code = st.text_input("코드를 입력하세요", type="password")
 if access_code == "z733":
     st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
     # Calculate the total number of attendees
-    total_attendees = course_counts_df['신청 인원수'].sum()/3
+    total_attendees = int(course_counts_df['신청 인원수'].sum()/3)
 
     # Display total attendees above the buttons
     st.write(f"### 총 신청자 수: {total_attendees}명")
