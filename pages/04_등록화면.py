@@ -18,8 +18,14 @@ if "data" not in st.session_state:
     st.session_state.data = load_data()
 
 # 데이터 편집 기능 추가
-st.write("데이터 편집이 가능합니다. '등록' 열을 True/False로 변경 후 '변경 사항 저장' 버튼을 눌러주세요.")
-edited_data = st.data_editor(st.session_state.data, use_container_width=True)
+st.write("데이터 편집이 가능합니다. '등록' 열을 체크박스로 변경 후 '변경 사항 저장' 버튼을 눌러주세요.")
+edited_data = st.data_editor(
+    st.session_state.data,
+    use_container_width=True,
+    column_config={
+        "등록": st.column_config.CheckboxColumn(label="등록 여부")
+    }
+)
 
 # '변경 사항 저장' 버튼 클릭 시 동작
 if st.button("변경 사항 저장"):
