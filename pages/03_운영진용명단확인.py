@@ -63,10 +63,9 @@ if access_code == "z733":
     st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
     # Calculate the total number of attendees
     total_attendees = int(course_counts_df['신청 인원수'].sum()/3)
-    st.write(f"### 총 신청자 수: {total_attendees}명")
 
   # Display the DataFrame with column headers that can be clicked for sorting
-    st.write("### 강좌별 신청 인원수")
+    st.write(f"### 강좌별 신청 인원수 (총원: {total_attendees}명)")
     st.dataframe(course_counts_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
 
     # Button links for additional resources
