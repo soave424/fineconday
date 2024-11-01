@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-st.logo(size="medium", link=None, icon_image="image/logo.png")
+st.sidebar.image("image/logo.png", use_column_width=True)  # Adjust size as needed
 
 
 
