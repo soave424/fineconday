@@ -79,12 +79,13 @@ if access_code == "z733":
     # Calculate the total number of attendees
     total_attendees = int(course_counts_df['신청 인원수'].sum()/3)
 
-    # Display total attendees above the buttons
-    st.write(f"### 총 신청자 수: {total_attendees}명")
+
     
     # Display sorting buttons in a single row
     col1, col2, col3, col4, col5 = st.columns(5)
-    # with col1:
+    with col1,2:
+    # Display total attendees above the buttons
+        st.write(f"### 총 신청자 수: {total_attendees}명")
     #     if st.button("강좌명 기준 정렬"):
     #         st.session_state.sort_by_name_asc = not st.session_state.sort_by_name_asc
     #         sorted_df = course_counts_df.sort_values(by="강좌명", ascending=st.session_state.sort_by_name_asc)
