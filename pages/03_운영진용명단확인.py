@@ -81,27 +81,37 @@ if access_code == "z733":
 
     # Display total attendees above the buttons
     st.write(f"### 총 신청자 수: {total_attendees}명")
-    
-    # Display sorting buttons in a single row
+    # HTML for sortable table headers
+    st.markdown("""
+        <style>
+            .sortable-header {
+                cursor: pointer;
+                font-weight: bold;
+                color: #009879;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     col1, col2, col3, col4, col5 = st.columns(5)
+
     with col1:
-        if st.button("강좌명 기준 정렬"):
+        if st.button("강좌명"):
             st.session_state.sort_by_name_asc = not st.session_state.sort_by_name_asc
             sorted_df = course_counts_df.sort_values(by="강좌명", ascending=st.session_state.sort_by_name_asc)
     with col2:
-        if st.button("강사명 기준 정렬"):
+        if st.button("강사명"):
             st.session_state.sort_by_instructor_asc = not st.session_state.sort_by_instructor_asc
             sorted_df = course_counts_df.sort_values(by="강사명", ascending=st.session_state.sort_by_instructor_asc)
     with col3:
-        if st.button("신청 인원수 기준 정렬"):
+        if st.button("신청 인원수"):
             st.session_state.sort_by_count_asc = not st.session_state.sort_by_count_asc
             sorted_df = course_counts_df.sort_values(by="신청 인원수", ascending=st.session_state.sort_by_count_asc)
     with col4:
-        if st.button("강좌 코드 기준 정렬"):
+        if st.button("강좌 코드"):
             st.session_state.sort_by_code_asc = not st.session_state.sort_by_code_asc
             sorted_df = course_counts_df.sort_values(by="강좌 코드", ascending=st.session_state.sort_by_code_asc)
     with col5:
-        if st.button("장소 기준 정렬"):
+        if st.button("장소"):
             st.session_state.sort_by_location_asc = not st.session_state.sort_by_location_asc
             sorted_df = course_counts_df.sort_values(by="장소", ascending=st.session_state.sort_by_location_asc)
 
