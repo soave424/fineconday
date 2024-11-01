@@ -11,7 +11,12 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-st.logo("image/logo.png", size="large", link="https://cafe.naver.com/financialeducation")
+sidebar_logo = st.image("image/logo.png")
+main_body_logo = st.image("image/mainlogo.png")
+
+st.logo(sidebar_logo, icon_image=main_body_logo)
+
+# st.logo("image/logo.png", size="large", link="https://cafe.naver.com/financialeducation")
 
 
 
