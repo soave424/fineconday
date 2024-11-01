@@ -76,7 +76,12 @@ if "sort_by_location_asc" not in st.session_state:
 access_code = st.text_input("코드를 입력하세요", type="password")
 if access_code == "z733":
     st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
+    # Calculate the total number of attendees
+    total_attendees = course_counts_df['신청 인원수'].sum()
 
+    # Display total attendees above the buttons
+    st.write(f"### 총 신청자 수: {total_attendees}명")
+    
     # Display sorting buttons in a single row
     col1, col2, col3, col4, col5 = st.columns(5)
     with col1:
@@ -102,6 +107,13 @@ if access_code == "z733":
 
     # Display the sorted table
     st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
+
+    # Add two buttons at the bottom, in a single row
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.button("신청시트원본", on_click=lambda: st.write("https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit"))
+    with col_b:
+        st.button("강좌별목록구글", on_click=lambda: st.write("https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?usp=sharing"))
 
 else:
     st.warning("올바른 코드를 입력하세요.")
