@@ -85,7 +85,10 @@ with tab1:
 # 탭 2: 강좌 정보
 with tab2:
     st.header("강좌 정보")
-    st.image("image/special.png", caption="강좌 안내", use_column_width=True)
+    st.image("image/special.png", caption="특강 안내", use_column_width=True)
+    st.image("image/select1.png", caption="선택강좌 1 안내", use_column_width=True)
+    st.image("image/select2.png", caption="선택강좌 2 안내", use_column_width=True)
+    st.image("image/select3.png", caption="선택강좌 3 안내", use_column_width=True)
 
 # 탭 3: 찾아오는 길
 with tab3:
