@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-st.sidebar.image("image/logo.png", use_column_width=True)  # Adjust size as needed
+st.sidebar.image("image/logo.png", use_column_width=True, link="https://cafe.naver.com/financialeducation")
 
 
 
