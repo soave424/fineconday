@@ -67,7 +67,34 @@ if access_code == "z733":
   # Display the DataFrame with column headers that can be clicked for sorting
     st.write(f"### 강좌별 신청 인원수 (총원: {total_attendees}명)")
     st.dataframe(course_counts_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
-
+  # 버튼 스타일 추가
+    st.markdown("""
+        <style>
+            .button-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                margin-top: 20px;
+                margin-bottom: 40px;
+            }
+            .button-link {
+                background-color: #5eb4d6;
+                color: white !important;
+                border: none;
+                border-radius: 10px;
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                font-weight: bold;
+                text-align: center;
+                text-decoration: none;
+                flex: 1;
+            }
+            .button-link:hover {
+                background-color: #4ca2bf;
+            }
+        </style>
+    """, unsafe_allow_html=True)
     # Button links for additional resources
     st.markdown("""
         <div class="button-container">
