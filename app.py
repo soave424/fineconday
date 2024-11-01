@@ -9,7 +9,6 @@ st.set_page_config(
     page_icon="image/pre.png",
     layout="wide",
     initial_sidebar_state="collapsed",
-    logo="image/logo.png",
 )
 
 st.sidebar.markdown(
