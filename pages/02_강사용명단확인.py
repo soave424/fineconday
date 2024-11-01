@@ -106,7 +106,7 @@ def load_data():
 data = load_data()
 
 # 기본 열이 없을 경우 추가
-required_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3', '등록']
+required_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3', '등록상태']
 for column in required_columns:
     if column not in data.columns:
         data[column] = ""
@@ -141,7 +141,7 @@ if st.button("조회"):
         # 강좌 신청 조회 코드의 일부 수정
         if not course_attendees.empty:
             # '등록' 열의 값이 정확히 "등록"인 경우 상단에 배치하고 나머지는 이름 가나다순으로 정렬
-            course_attendees['등록상태'] = course_attendees['등록'].apply(lambda x: 1 if x.strip() == "등록" else 0)
+            course_attendees['등록상태'] = course_attendees['등록상태'].apply(lambda x: 1 if x.strip() == "등록" else 0)
             course_attendees = course_attendees.sort_values(
                 by=['등록상태', '이름'], ascending=[False, True]
             ).drop(columns=['등록상태'])
@@ -152,7 +152,7 @@ if st.button("조회"):
 
             # 필요한 열만 선택하여 '번호'를 포함하여 출력
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
-            st.table(course_attendees[['번호', '이름', '지역', '등록']].set_index('번호'))
+            st.table(course_attendees[['번호', '이름', '지역', '등록상태']].set_index('번호'))
         else:
             st.warning(f"'{display_course_name}' 강좌에 신청한 사람이 없습니다.")
     else:
