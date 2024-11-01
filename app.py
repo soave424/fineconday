@@ -12,7 +12,6 @@ st.set_page_config(
 )
 
 st.logo("image/mainlogo.jpg", size="large", link="https://cafe.naver.com/financialeducation")
-st.sidebar.image("image/logo.png")
 
 
 # 탭 생성
