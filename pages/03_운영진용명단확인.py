@@ -43,53 +43,34 @@ course_info = {
     "선생님의 돈공부: 재무관리와 내 삶 기획하기": ("달구쌤", "c0005", "미정")
 }
 
-# Data preparation for course information
+# Count attendees for each course
 course_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']
 course_counts = data[course_columns].melt(value_name='강좌명').dropna()['강좌명'].value_counts()
+
+# Prepare DataFrame for display
 course_counts_df = pd.DataFrame(course_counts).reset_index()
 course_counts_df.columns = ['강좌명', '신청 인원수']
-course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("정보 없음",))[0])
-course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("", "코드 없음",))[1])
-course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x, ("", "", "미정"))[2])
 
-# Initialize sorting state in session
-if "sort_by" not in st.session_state:
-    st.session_state.sort_by = {"column": "강좌명", "asc": True}
+# Split 강좌명 and add details from course_info
+course_counts_df[['강좌명', '강사명']] = course_counts_df['강좌명'].str.split('/', expand=True)
+course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("정보 없음",))[0])
+course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "코드 없음",))[1])
+course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "", "미정"))[2])
 
-# Sorting function
-def sort_table(column):
-    # Toggle sort direction if column is the same
-    if st.session_state.sort_by["column"] == column:
-        st.session_state.sort_by["asc"] = not st.session_state.sort_by["asc"]
-    else:
-        st.session_state.sort_by = {"column": column, "asc": True}
-    # Sort dataframe
-    return course_counts_df.sort_values(by=column, ascending=st.session_state.sort_by["asc"])
+# Set default sorted_df for display before any button click
+sorted_df = course_counts_df.copy()
 
-# CSS for table header buttons
-st.markdown("""
-    <style>
-        .sortable-header {
-            cursor: pointer;
-            color: #009879;
-            font-weight: bold;
-            text-align: left;
-            padding: 10px;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# Table header with buttons
-st.markdown(f"""
-    <div class="sortable-header">
-        <span onclick="window.location.href='?sort_column=강좌명'">강좌명</span> |
-        <span onclick="window.location.href='?sort_column=강사명'">강사명</span> |
-        <span onclick="window.location.href='?sort_column=신청 인원수'">신청 인원수</span> |
-        <span onclick="window.location.href='?sort_column=강좌 코드'">강좌 코드</span> |
-        <span onclick="window.location.href='?sort_column=장소'">장소</span>
-    </div>
-""", unsafe_allow_html=True)
-
+# Initialize session state variables for sorting direction
+if "sort_by_name_asc" not in st.session_state:
+    st.session_state.sort_by_name_asc = True
+if "sort_by_instructor_asc" not in st.session_state:
+    st.session_state.sort_by_instructor_asc = True
+if "sort_by_count_asc" not in st.session_state:
+    st.session_state.sort_by_count_asc = True
+if "sort_by_code_asc" not in st.session_state:
+    st.session_state.sort_by_code_asc = True
+if "sort_by_location_asc" not in st.session_state:
+    st.session_state.sort_by_location_asc = True
 
 # Access code verification
 access_code = st.text_input("코드를 입력하세요", type="password")
@@ -100,11 +81,33 @@ if access_code == "z733":
 
     # Display total attendees above the buttons
     st.write(f"### 총 신청자 수: {total_attendees}명")
+    
+    # Display sorting buttons in a single row
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        if st.button("강좌명 기준 정렬"):
+            st.session_state.sort_by_name_asc = not st.session_state.sort_by_name_asc
+            sorted_df = course_counts_df.sort_values(by="강좌명", ascending=st.session_state.sort_by_name_asc)
+            
+    with col2:
+        if st.button("강사명 기준 정렬"):
+            st.session_state.sort_by_instructor_asc = not st.session_state.sort_by_instructor_asc
+            sorted_df = course_counts_df.sort_values(by="강사명", ascending=st.session_state.sort_by_instructor_asc)
+    with col3:
+        if st.button("신청 인원수 기준 정렬"):
+            st.session_state.sort_by_count_asc = not st.session_state.sort_by_count_asc
+            sorted_df = course_counts_df.sort_values(by="신청 인원수", ascending=st.session_state.sort_by_count_asc)
+    with col4:
+        if st.button("강좌 코드 기준 정렬"):
+            st.session_state.sort_by_code_asc = not st.session_state.sort_by_code_asc
+            sorted_df = course_counts_df.sort_values(by="강좌 코드", ascending=st.session_state.sort_by_code_asc)
+    with col5:
+        if st.button("장소 기준 정렬"):
+            st.session_state.sort_by_location_asc = not st.session_state.sort_by_location_asc
+            sorted_df = course_counts_df.sort_values(by="장소", ascending=st.session_state.sort_by_location_asc)
 
-    # Sort and display table
-    sorted_df = sort_table(st.session_state.sort_by["column"])
+    # Display the sorted table
     st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
-
 
  # 버튼 스타일 추가
     st.markdown("""
