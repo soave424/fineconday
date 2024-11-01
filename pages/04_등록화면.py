@@ -11,7 +11,13 @@ CSV_PATH = os.getenv("CSV_FILE_PATH", "data.csv")
 
 # 데이터 로드 함수
 def load_data():
-    return pd.read_csv(CSV_PATH)
+    data = pd.read_csv(CSV_PATH)
+    # Ensure the '등록' column is boolean (True/False) for compatibility
+    if '등록' in data.columns:
+        data['등록'] = data['등록'].astype(bool)
+    else:
+        data['등록'] = False  # Default to False if the column doesn't exist
+    return data
 
 # 데이터 로드 (세션 상태 초기화)
 if "data" not in st.session_state:
