@@ -11,6 +11,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+st.logo(size="medium", link=None, icon_image="image/logo.png")
+
+
 
 # 탭 생성
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
