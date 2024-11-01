@@ -11,14 +11,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Sidebar logo
-st.sidebar.image("image/logo.png", use_column_width=True)
+st.logo("image/logo.png", size="250px", link="https://cafe.naver.com/financialeducation")
 
-# Main body logo
-st.image("image/mainlogo.jpg", use_column_width=True)
-
-# Optional link in the sidebar
-st.sidebar.markdown("[Visit our community](https://cafe.naver.com/financialeducation)")
 
 
 # 탭 생성
