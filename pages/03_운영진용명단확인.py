@@ -43,45 +43,6 @@ course_info = {
     "선생님의 돈공부: 재무관리와 내 삶 기획하기": ("달구쌤", "c0005", "미정")
 }
 
-# Count attendees for each course
-course_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']
-course_counts = data[course_columns].melt(value_name='강좌명').dropna()['강좌명'].value_counts()
-
-# Prepare DataFrame for display
-course_counts_df = pd.DataFrame(course_counts).reset_index()
-course_counts_df.columns = ['강좌명', '신청 인원수']
-
-# Split 강좌명 and add details from course_info
-course_counts_df[['강좌명', '강사명']] = course_counts_df['강좌명'].str.split('/', expand=True)
-course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("정보 없음",))[0])
-course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "코드 없음",))[1])
-course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "", "미정"))[2])
-
-# Set default sorted_df for display before any button click
-sorted_df = course_counts_df.copy()
-
-# Initialize session state variables for sorting direction
-if "sort_by_name_asc" not in st.session_state:
-    st.session_state.sort_by_name_asc = True
-if "sort_by_instructor_asc" not in st.session_state:
-    st.session_state.sort_by_instructor_asc = True
-if "sort_by_count_asc" not in st.session_state:
-    st.session_state.sort_by_count_asc = True
-if "sort_by_code_asc" not in st.session_state:
-    st.session_state.sort_by_code_asc = True
-if "sort_by_location_asc" not in st.session_state:
-    st.session_state.sort_by_location_asc = True
-
-# Access code verification
-access_code = st.text_input("코드를 입력하세요", type="password")
-if access_code == "z733":
-    st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
-    # Calculate the total number of attendees
-    total_attendees = int(course_counts_df['신청 인원수'].sum()/3)
-
-    # Display total attendees above the buttons
-    st.write(f"### 총 신청자 수: {total_attendees}명")
-
 # Data preparation for course information
 course_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']
 course_counts = data[course_columns].melt(value_name='강좌명').dropna()['강좌명'].value_counts()
@@ -129,9 +90,21 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-# Sort and display table
-sorted_df = sort_table(st.session_state.sort_by["column"])
-st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
+
+# Access code verification
+access_code = st.text_input("코드를 입력하세요", type="password")
+if access_code == "z733":
+    st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
+    # Calculate the total number of attendees
+    total_attendees = int(course_counts_df['신청 인원수'].sum()/3)
+
+    # Display total attendees above the buttons
+    st.write(f"### 총 신청자 수: {total_attendees}명")
+
+    # Sort and display table
+    sorted_df = sort_table(st.session_state.sort_by["column"])
+    st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
+
 
  # 버튼 스타일 추가
     st.markdown("""
