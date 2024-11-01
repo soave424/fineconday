@@ -140,20 +140,20 @@ if st.button("조회"):
 
         # 강좌 신청 조회 코드의 일부 수정
         if not course_attendees.empty:
-            # 임시 열 '등록'을 생성하여 "등록"인 사람을 상단에 배치
-            course_attendees['등록'] = course_attendees['등록'].apply(lambda x: 1 if x.strip() == "등록" else 0)
-            course_attendees = course_attendees.sort_values(
-                by=['등록', '이름'], ascending=[False, True]
-            )
+            # '등록' 열의 값이 정확히 "등록"인 경우 상단에 배치하고, 나머지는 이름 가나다순으로 정렬
+            course_attendees['등록상태'] = course_attendees['등록'].apply(lambda x: 1 if x.strip() == "등록" else 0)
+            sorted_course_attendees = course_attendees.sort_values(
+                by=['등록상태', '이름'], ascending=[False, True]
+            ).drop(columns=['등록상태'])  # 임시 열 '등록상태' 삭제
 
-            # 정렬 후 원래 '등록' 열을 다시 복원
-            course_attendees['등록'] = course_attendees['등록'].apply(lambda x: "등록" if x == 1 else "")
+            # 1부터 시작하는 인덱스 열 추가
+            sorted_course_attendees = sorted_course_attendees.reset_index(drop=True)
+            sorted_course_attendees['번호'] = sorted_course_attendees.index + 1
 
-            # 1부터 시작하는 인덱스 열 추가 및 필요한 열만 출력
-            course_attendees = course_attendees.reset_index(drop=True)
-            course_attendees['번호'] = course_attendees.index + 1
+            # 필요한 열만 선택하여 '번호'를 포함하여 출력
             st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
-            st.table(course_attendees[['번호', '이름', '지역', '등록']].set_index('번호'))
+            st.table(sorted_course_attendees[['번호', '이름', '지역', '등록']].set_index('번호'))
+
 
 
         else:
