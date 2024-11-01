@@ -57,98 +57,25 @@ course_counts_df['강사명'] = course_counts_df['강좌명'].apply(lambda x: co
 course_counts_df['강좌 코드'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "코드 없음",))[1])
 course_counts_df['장소'] = course_counts_df['강좌명'].apply(lambda x: course_info.get(x.strip(), ("", "", "미정"))[2])
 
-# Set default sorted_df for display before any button click
-sorted_df = course_counts_df.copy()
-
-# Initialize session state variables for sorting direction
-if "sort_by_name_asc" not in st.session_state:
-    st.session_state.sort_by_name_asc = True
-if "sort_by_instructor_asc" not in st.session_state:
-    st.session_state.sort_by_instructor_asc = True
-if "sort_by_count_asc" not in st.session_state:
-    st.session_state.sort_by_count_asc = True
-if "sort_by_code_asc" not in st.session_state:
-    st.session_state.sort_by_code_asc = True
-if "sort_by_location_asc" not in st.session_state:
-    st.session_state.sort_by_location_asc = True
-
 # Access code verification
 access_code = st.text_input("코드를 입력하세요", type="password")
 if access_code == "z733":
     st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
     # Calculate the total number of attendees
     total_attendees = int(course_counts_df['신청 인원수'].sum()/3)
+    st.write(f"### 총 신청자 수: {total_attendees}명")
 
+  # Display the DataFrame with column headers that can be clicked for sorting
+    st.write("### 강좌별 신청 인원수")
+    st.dataframe(course_counts_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
 
-    
-    # Display sorting buttons in a single row
-    col1, col2, col3, col4 = st.columns([2,1,1,1])
-    with col1:
-    # Display total attendees above the buttons
-        st.write(f"### 총 신청자 수: {total_attendees}명")
-    #     if st.button("강좌명 기준 정렬"):
-    #         st.session_state.sort_by_name_asc = not st.session_state.sort_by_name_asc
-    #         sorted_df = course_counts_df.sort_values(by="강좌명", ascending=st.session_state.sort_by_name_asc)
-            
-    # with col2:
-    #     if st.button("강사명 기준 정렬"):
-    #         st.session_state.sort_by_instructor_asc = not st.session_state.sort_by_instructor_asc
-    #         sorted_df = course_counts_df.sort_values(by="강사명", ascending=st.session_state.sort_by_instructor_asc)
- 
-    with col2:
-        if st.button("인원수 정렬"):
-            st.session_state.sort_by_count_asc = not st.session_state.sort_by_count_asc
-            sorted_df = course_counts_df.sort_values(by="신청 인원수", ascending=st.session_state.sort_by_count_asc)
-    with col3:
-        if st.button("강좌별 정렬"):
-            st.session_state.sort_by_code_asc = not st.session_state.sort_by_code_asc
-            sorted_df = course_counts_df.sort_values(by="강좌 코드", ascending=st.session_state.sort_by_code_asc)
-    with col4:
-        if st.button("장소별 정렬"):
-            st.session_state.sort_by_location_asc = not st.session_state.sort_by_location_asc
-            sorted_df = course_counts_df.sort_values(by="장소", ascending=st.session_state.sort_by_location_asc)
-
-    # Display the sorted table
-    st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
-
- # 버튼 스타일 추가
+    # Button links for additional resources
     st.markdown("""
-        <style>
-            .button-container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 10px;
-                margin-top: 20px;
-                margin-bottom: 40px;
-            }
-            .button-link {
-                background-color: #5eb4d6;
-                color: white !important;
-                border: none;
-                border-radius: 10px;
-                padding: 10px 20px;
-                font-size: 1.1rem;
-                font-weight: bold;
-                text-align: center;
-                text-decoration: none;
-                flex: 1;
-            }
-            .button-link:hover {
-                background-color: #4ca2bf;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown(
-        """
         <div class="button-container">
-            <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_self">신청시트원본</a>
-            <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?gid=0#gid=0" target="_self">강좌별명단</a>
+            <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_blank">신청시트원본</a>
+            <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?gid=0#gid=0" target="_blank">강좌별명단</a>
         </div>
-        """,
-        unsafe_allow_html=True
-    )
+        """, unsafe_allow_html=True)
 
 else:
     st.warning("올바른 코드를 입력하세요.")
