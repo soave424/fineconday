@@ -99,7 +99,7 @@ if st.button("조회"):
         # 강좌 신청 조회 코드의 일부 수정
         if not course_attendees.empty:
             # '등록' 열의 값이 정확히 "등록"인 경우 상단에 배치하고 나머지는 이름 가나다순으로 정렬
-            course_attendees['등록상태'] = course_attendees['등록'].apply(lambda x: 1 if str(x).strip() == "true" else 0)
+            course_attendees['등록상태'] = course_attendees['등록'].apply(lambda x: 1 if str(x).strip() == 1 else 0)
             sorted_course_attendees = course_attendees.sort_values(
                 by=['등록상태', '이름'], ascending=[False, True]
             ).drop(columns=['등록상태'])  # 임시 열 '등록상태' 삭제
