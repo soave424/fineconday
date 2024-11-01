@@ -26,11 +26,7 @@ if "data" not in st.session_state:
 # 데이터 편집 기능 추가
 st.write("데이터 편집이 가능합니다. '등록' 열을 체크박스로 변경 후 '변경 사항 저장' 버튼을 눌러주세요.")
 # Toggle all "등록" values between True and False
-if st.button("전체 등록 해제"):
-    st.session_state.data['등록'] = False
 
-if st.button("전체 등록"):
-    st.session_state.data['등록'] = True
 edited_data = st.data_editor(
     st.session_state.data,
     use_container_width=True,
