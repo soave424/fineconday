@@ -108,12 +108,40 @@ if access_code == "z733":
     # Display the sorted table
     st.table(sorted_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']])
 
+ # 버튼 스타일 추가
+    st.markdown("""
+        <style>
+            .button-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+                margin-top: 20px;
+                margin-bottom: 40px;
+            }
+            .button-link {
+                background-color: #5eb4d6;
+                color: white !important;
+                border: none;
+                border-radius: 10px;
+                padding: 10px 20px;
+                font-size: 1.1rem;
+                font-weight: bold;
+                text-align: center;
+                text-decoration: none;
+                flex: 1;
+            }
+            .button-link:hover {
+                background-color: #4ca2bf;
+            }
+        </style>
+    """, unsafe_allow_html=True)
 
     st.markdown(
         """
         <div class="button-container">
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_self">신청시트원본</a>
-            <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?usp=sharing" target="_blank">강좌별명단</a>
+            <a class="button-link" href="#" onclick="window.open('https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?usp=sharing', '_blank')">강좌별명단</a>
         </div>
         """,
         unsafe_allow_html=True
