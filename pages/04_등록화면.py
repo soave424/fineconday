@@ -28,8 +28,6 @@ if "data" not in st.session_state:
 access_code = st.text_input("코드를 입력하세요", type="password")
 if access_code == "z733":
     st.success("코드가 확인되었습니다. 각 강좌별 신청 인원수를 확인할 수 있습니다.")
-    # Calculate the total number of attendees
-    total_attendees = int(course_counts_df['신청 인원수'].sum()/3)
 
     # 데이터 편집 기능 추가
     st.write("데이터 편집이 가능합니다. '등록' 열을 체크박스로 변경 후 '변경 사항 저장' 버튼을 눌러주세요.")
