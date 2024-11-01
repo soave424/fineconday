@@ -17,10 +17,21 @@ def load_data():
 # 데이터 로드
 data = load_data()
 
-# 데이터 편집 기능 추가
-edited_data = st.data_editor(data, use_container_width=True)
+# '등록' 열이 없는 경우 False 값으로 초기화
+if '등록' not in data.columns:
+    data['등록'] = False
 
-# '등록' 열에 대한 편집 결과 확인
+# 데이터 편집 기능 추가
+# '등록' 열을 체크박스로 표시하도록 설정
+edited_data = st.data_editor(
+    data,
+    column_config={
+        "등록": st.column_config.CheckboxColumn("등록 여부")  # "등록" 열을 체크박스로 표시
+    },
+    use_container_width=True
+)
+
+# '등록' 열에 대한 편집 결과 확인 및 CSV 저장
 if st.button("변경 사항 저장"):
     # 편집된 데이터를 CSV에 저장
     edited_data.to_csv(CSV_PATH, index=False)
