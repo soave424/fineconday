@@ -9,9 +9,17 @@ st.set_page_config(
     page_icon="image/pre.png",
     layout="wide",
     initial_sidebar_state="collapsed",
+    logo="image/logo.png",
 )
 
-st.sidebar.image("image/logo.png", use_column_width=True, link="https://cafe.naver.com/financialeducation")
+st.sidebar.markdown(
+    f"""
+    <a href="https://cafe.naver.com/financialeducation" target="_blank">
+        <img src="image/logo.png" style="width: 100%;">
+    </a>
+    """,
+    unsafe_allow_html=True
+)
 
 
 
