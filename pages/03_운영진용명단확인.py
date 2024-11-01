@@ -80,7 +80,7 @@ if access_code == "z733":
     total_attendees = course_counts_df['신청 인원수'].sum()
 
     # Display total attendees above the buttons
-    st.write(f"### 총 신청자 수: {total_attendees}명")
+    st.write(f"### 총 신청자 수: {total_attendees/3}명")
     
     # Display sorting buttons in a single row
     col1, col2, col3, col4, col5 = st.columns(5)
