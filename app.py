@@ -54,7 +54,7 @@ with tab1:
         <div class="button-container">
             <a class="button-link" href="https://241109.streamlit.app/roll" target="_self">강좌신청 확인하기🔍</a>
             <a class="button-link" href="https://open.kakao.com/o/g141aCVg" target="_blank">오픈채팅방 입장👨🏻‍💻</a>
-            <a class="button-link" href="https://bit.ly/econo1109" target="_blank">연수후기 남기기🖼</a>
+            <a class="button-link" href="https://bit.ly/econo1109" target="_blank">연수후기 남기기📜</a>
         </div>
         """,
         unsafe_allow_html=True
