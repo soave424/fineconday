@@ -66,7 +66,7 @@ if access_code == "z733":
 
   # Display the DataFrame with column headers that can be clicked for sorting
     st.write(f"### 강좌별 신청 인원수 (총원: {total_attendees}명)")
-    st.dataframe(course_counts_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']], use_container_width=True, height=700)
+    st.dataframe(course_counts_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']], use_container_width=True, height=600)
   # 버튼 스타일 추가
     st.markdown("""
         <style>
