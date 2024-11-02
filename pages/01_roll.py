@@ -144,4 +144,4 @@ if not user_data.empty:
     st.write(f"{user_name}님의 강좌 목록:")
     st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
 else:
-    st.warning("해당 이름과 코드에 해당하는 정보가 없습니다.")
+    st.warning(f"{name}{code}해당 이름과 코드에 해당하는 정보가 없습니다.")
