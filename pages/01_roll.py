@@ -113,7 +113,7 @@ st.markdown("""
 # Check if user is logged in and display relevant data
 if st.session_state.get("is_logged_in"):
     name = st.session_state.get("name").strip()
-    code = st.session_state.get("code").strip()  # Using `code` from session_state
+    code = st.session_state.get("code","").strip()  # Using `code` from session_state
     
     # Filter user data by 'name' and 'code' columns with stripped strings for consistency
     user_data = data[(data['이름'] == name) & (data['코드'] == code)]
