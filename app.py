@@ -13,6 +13,47 @@ st.set_page_config(
 
 st.logo("image/logo.png", size="large", link="https://cafe.naver.com/financialeducation")
 
+if "is_logged_in" not in st.session_state:
+    st.session_state.is_logged_in = False
+    st.session_state.user_type = None
+    st.session_state.name = None
+
+def login():
+    name = st.session_state.input_name.strip()
+    code = st.session_state.input_code.strip()
+    
+    # 입력한 이름과 코드로 사용자 검증
+    user_row = user_data[(user_data['이름'] == name) & (user_data['코드'] == code)]
+    
+    if not user_row.empty:
+        st.session_state.is_logged_in = True
+        st.session_state.name = name
+        st.session_state.user_type = user_row.iloc[0]['분류']
+        
+        # 맞춤 메시지 출력
+        if st.session_state.user_type == "연수 참여":
+            st.sidebar.success(f"{name} 선생님! 경금교 연수에 오신 것을 환영합니다.")
+        elif st.session_state.user_type == "강사":
+            st.sidebar.success(f"{name} 선생님! 오늘 연수 힘내세요!")
+        elif st.session_state.user_type == "운영지원":
+            st.sidebar.success(f"{name} 선생님! 오늘 하루 힘내세요!")
+    else:
+        st.sidebar.error("이름 또는 코드가 잘못되었습니다. 다시 입력해주세요.")
+
+def logout():
+    st.session_state.is_logged_in = False
+    st.session_state.user_type = None
+    st.session_state.name = None
+
+# 사이드바에 로그인/로그아웃 기능 추가
+with st.sidebar:
+    if not st.session_state.is_logged_in:
+        st.radio("로그인 유형 선택", ["연수 참여", "강사", "운영지원"], key="user_type_selection")
+        st.text_input("이름", key="input_name")
+        st.text_input("코드", key="input_code", type="password")
+        st.button("로그인", on_click=login)
+    else:
+        st.button("로그아웃", on_click=logout)
 
 # 탭 생성
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
