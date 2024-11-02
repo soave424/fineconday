@@ -71,6 +71,9 @@ def render_sidebar():
             st.text_input("코드", key="input_code", type="password")
             st.button("로그인", on_click=login)
         else:
+            st.session_state.name = data['이름']
+            st.session_state.code = data['코드'] 
+
             if st.session_state.user_type == "연수참여":
                 st.sidebar.success(f"{st.session_state.name} 선생님!({st.session_state.code}) 경금교 연수에 오신 것을 환영합니다.")
             elif st.session_state.user_type == "강사":
