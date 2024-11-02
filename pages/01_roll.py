@@ -110,9 +110,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Ensure '코드' is stripped of whitespace for consistency in filtering
-name = st.session_state.get("name").strip()
-code = st.session_state.get("code").strip()
+# Ensure '코드' and '이름' are retrieved safely with defaults to avoid NoneType errors
+name = st.session_state.get("name", "").strip()  # Defaults to empty string if not set
+code = st.session_state.get("code", "").strip()  # Defaults to empty string if not set
 
 # Filter user data by 'name' and 'code' columns with stripped strings for consistency
 user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
@@ -125,11 +125,11 @@ if not user_data.empty:
     # Filter out any empty courses
     courses = [course for course in courses if pd.notna(course)]
 
-    # Process each course for display
+    # Prepare course data to display
     course_data = []
     for course in courses:
         if pd.notna(course):
-            parts = course.split('/')  # Split course and instructor
+            parts = course.split('/')
             course_name = parts[0].strip()
             instructor = parts[1].strip() if len(parts) > 1 else ""
             classroom, link = course_info.get(course_name, ("미정", ""))
@@ -143,6 +143,5 @@ if not user_data.empty:
     course_df.index = course_df.index + 1
     st.write(f"{user_name}님의 강좌 목록:")
     st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
-
 else:
     st.warning("해당 이름과 코드에 해당하는 정보가 없습니다.")
