@@ -68,16 +68,24 @@ def logout():
     st.session_state.user_type = None
     st.session_state.name = None
 
-# 사이드바에 로그인 UI 추가
+# 사이드바에 로그인 UI 및 메시지 표시
 with st.sidebar:
     if not st.session_state.is_logged_in:
-        st.radio("로그인 유형 선택", ["연수참여", "강사", "운영지원"], key="user_type_selection")
+        st.radio("로그인 유형 선택", ["연수 참여", "강사", "운영지원"], key="user_type_selection")
         st.text_input("이름", key="input_name")
         st.text_input("코드", key="input_code", type="password")
         st.button("로그인", on_click=login)
     else:
+        # 로그인한 상태에서 메시지 표시
+        if st.session_state.user_type == "연수 참여":
+            st.sidebar.success(f"{st.session_state.name} 선생님! 경금교 연수에 오신 것을 환영합니다.")
+        elif st.session_state.user_type == "강사":
+            st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 연수 힘내세요!")
+        elif st.session_state.user_type == "운영지원":
+            st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 하루 힘내세요!")
+        
+        # 로그아웃 버튼
         st.button("로그아웃", on_click=logout)
-
 # 탭 생성
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
 
