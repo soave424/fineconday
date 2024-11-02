@@ -5,15 +5,20 @@ import os
 
 
 # CSV 파일 경로 설정
-CSV_PATH = "hidden_data.csv"  # 실제 파일 위치로 설정
+CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
-# 파일이 존재하는지 확인하고 데이터 로드
-if os.path.exists(CSV_PATH):
-    user_data = pd.read_csv(CSV_PATH)
-else:
-    st.error("User data CSV 파일을 찾을 수 없습니다. 파일 경로를 확인하세요.")
+# CSV 파일 로드 함수
+# @st.cache_data
+# CSV 파일 로드 함수 (매번 새로 로드하도록 설정)
+def load_data():
+    try:
+        return pd.read_csv(CSV_PATH)
+    except FileNotFoundError:
+        st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
+        return pd.DataFrame()
 
-
+# 데이터 로드
+data = load_data()
 # 페이지 설정
 st.set_page_config(
     page_title="경제금융교육연구회",
