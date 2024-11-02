@@ -25,7 +25,7 @@ st.set_page_config(
     page_title="경제금융교육연구회",
     page_icon="image/pre.png",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 st.logo("image/logo.png", size="large", link="https://cafe.naver.com/financialeducation")
