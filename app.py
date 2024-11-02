@@ -70,7 +70,7 @@ def render_sidebar():
         if not st.session_state.is_logged_in:
             st.radio("로그인 유형 선택", ["연수참여", "강사", "운영지원"], key="user_type_selection")
             st.text_input("이름", key="input_name")
-            st.text_input("코드", key="input_code", type="password")
+            st.text_input("코드(핸드폰번호 뒷자리)", key="input_code", type="password")
             st.button("로그인", on_click=login)
         else:
             st.session_state.name = data['이름']
