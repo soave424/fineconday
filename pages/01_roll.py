@@ -110,45 +110,39 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Check if user is logged in and display relevant data
-if st.session_state.get("is_logged_in"):
-    name = st.session_state.get("name","").strip()
-    code = st.session_state.get("code","").strip()  # Using `code` from session_state
-    
-    # Filter user data by 'name' and 'code' columns with stripped strings for consistency
-    user_data = data[(data['이름'] == name) & (data['코드'] == code)]
-    
-    if not user_data.empty:
-        # Display user info and course list
-        user_name = f"{name} ({user_data['지역'].iloc[0]})"
-        courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
-        
-        # Filter out any empty courses
-        courses = [course for course in courses if pd.notna(course)]
+# Ensure '코드' is stripped of whitespace for consistency in filtering
+name = st.session_state.get("name").strip()
+code = st.session_state.get("code").strip()
 
-        if courses:
-            # Prepare course data for display
-            course_data = []
-            for course in courses:
-                parts = course.split('/')
-                course_name = parts[0].strip()
-                instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
-                    
-                # Create clickable link if available
-                course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
-                course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
-            
-            # Display course information as an HTML table
-            course_df = pd.DataFrame(course_data)
-            course_df.index = course_df.index + 1
-            st.write(f"{user_name}님의 강좌 목록:")
-            st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
-        
-        else:
-            st.info(f"{user_name}님의 선택된 강좌가 없습니다.")
+# Filter user data by 'name' and 'code' columns with stripped strings for consistency
+user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
+
+if not user_data.empty:
+    # Display user info and course list
+    user_name = f"{name} ({user_data['지역'].iloc[0]})"
+    courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
     
-    else:
-        st.warning("해당 이름과 코드에 해당하는 정보가 CSV에서 발견되지 않았습니다.")
+    # Filter out any empty courses
+    courses = [course for course in courses if pd.notna(course)]
+
+    # Process each course for display
+    course_data = []
+    for course in courses:
+        if pd.notna(course):
+            parts = course.split('/')  # Split course and instructor
+            course_name = parts[0].strip()
+            instructor = parts[1].strip() if len(parts) > 1 else ""
+            classroom, link = course_info.get(course_name, ("미정", ""))
+
+            # Create clickable link if available
+            course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
+            course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
+        
+    # Display course information as HTML table
+    course_df = pd.DataFrame(course_data)
+    course_df.index = course_df.index + 1
+    st.write(f"{user_name}님의 강좌 목록:")
+    st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
+
 else:
-    # If not logged in, prompt for manual input
-    st.info("로그인이 필요합니다. 사이드바에서 로그인하세요.")
+    st.warning("해당 이름과 코드에 해당하는 정보가 없습니다.")
