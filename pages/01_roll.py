@@ -7,7 +7,13 @@ from app import render_sidebar
 
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="expanded")
 
-
+# Initialize session state variables
+if "is_logged_in" not in st.session_state:
+    st.session_state.is_logged_in = False
+if "name" not in st.session_state:
+    st.session_state.name = ""
+if "code" not in st.session_state:
+    st.session_state.code = ""
 # 사이드바 로그인 상태 렌더링
 render_sidebar()
 
