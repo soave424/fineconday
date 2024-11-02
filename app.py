@@ -69,11 +69,11 @@ def render_sidebar():
             st.button("로그인", on_click=login)
         else:
             if st.session_state.user_type == "연수참여":
-                st.sidebar.success(f"{st.session_state.name} 선생님! 경금교 연수에 오신 것을 환영합니다.")
+                st.sidebar.success(f"{st.session_state.name} 선생님!({st.session_state.code}) 경금교 연수에 오신 것을 환영합니다.")
             elif st.session_state.user_type == "강사":
-                st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 연수 힘내세요!")
+                st.sidebar.success(f"{st.session_state.name} 선생님!({st.session_state.code}) 오늘 연수 힘내세요!")
             elif st.session_state.user_type == "운영지원":
-                st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 하루 힘내세요!")
+                st.sidebar.success(f"{st.session_state.name} 선생님!({st.session_state.code}) 오늘 하루 힘내세요!")
             st.button("로그아웃", on_click=logout)
 
 # 메인 페이지에서 사이드바 렌더링
