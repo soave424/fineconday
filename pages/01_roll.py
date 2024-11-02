@@ -14,6 +14,27 @@ if "name" not in st.session_state:
     st.session_state.name = ""
 if "code" not in st.session_state:
     st.session_state.code = ""
+
+def render_sidebar():
+    if st.session_state.is_logged_in:
+        st.sidebar.write(f"Welcome, {st.session_state.name}")
+    else:
+        # Login form
+        name = st.sidebar.text_input("Name")
+        code = st.sidebar.text_input("Code", type="password")
+
+        if st.sidebar.button("Login"):
+            # Here, validate user with `name` and `code`
+            user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
+            if not user_data.empty:
+                st.session_state.is_logged_in = True
+                st.session_state.name = name
+                st.session_state.code = code  # Ensure code is saved
+                st.sidebar.success(f"Welcome, {name}")
+            else:
+                st.sidebar.error("Invalid name or code.")
+
+
 # 사이드바 로그인 상태 렌더링
 render_sidebar()
 
