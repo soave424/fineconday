@@ -70,19 +70,33 @@ def render_sidebar():
         if not st.session_state.is_logged_in:
             st.radio("로그인 유형 선택", ["연수참여", "강사", "운영지원"], key="user_type_selection")
             st.text_input("이름", key="input_name")
-            st.text_input("입장코드(핸드폰 뒷자리)", key="input_code", type="password")
-            st.button("로그인", on_click=login)
+            st.text_input("입장코드", key="input_ecode", type="password")
+            if st.button("로그인"):
+                # Perform login by filtering the specific user data
+                user_data = load_data()
+                user_row = user_data[(user_data['이름'].str.strip() == st.session_state.input_name.strip()) &
+                                     (user_data['입장코드'].str.strip() == st.session_state.input_ecode.strip())]
+                if not user_row.empty:
+                    # Set session state based on the specific user data
+                    st.session_state.is_logged_in = True
+                    st.session_state.name = st.session_state.input_name.strip()
+                    st.session_state.ecode = st.session_state.input_code.strip()
+                    st.session_state.user_type = user_row.iloc[0]['분류']
+                else:
+                    st.error("이름 또는 입장코드가 잘못되었습니다. 다시 입력해주세요.")
         else:
-            st.session_state.name = data['이름']
-            st.session_state.code = data['입장코드'] 
-
+            # Display a personalized message for the logged-in user
             if st.session_state.user_type == "연수참여":
-                st.sidebar.success(f"{st.session_state.name} 선생님!({st.session_state.code}) 경금교 연수에 오신 것을 환영합니다.")
+                st.sidebar.success(f"{st.session_state.name} 선생님! ({st.session_state.ecode}) 경금교 연수에 오신 것을 환영합니다.")
             elif st.session_state.user_type == "강사":
-                st.sidebar.success(f"{st.session_state.name} 선생님!({st.session_state.code}) 오늘 연수 힘내세요!")
+                st.sidebar.success(f"{st.session_state.name} 선생님! ({st.session_state.ecode})오늘 연수 힘내세요!")
             elif st.session_state.user_type == "운영지원":
-                st.sidebar.success(f"{st.session_state.name} 선생님!({st.session_state.code}) 오늘 하루 힘내세요!")
-            st.button("로그아웃", on_click=logout)
+                st.sidebar.success(f"{st.session_state.name} 선생님! ({st.session_state.ecode})오늘 하루 힘내세요!")
+            if st.button("로그아웃"):
+                st.session_state.is_logged_in = False
+                st.session_state.name = ""
+                st.session_state.code = ""
+                st.session_state.user_type = None
 
 # 메인 페이지에서 사이드바 렌더링
 render_sidebar()
