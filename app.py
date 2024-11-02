@@ -5,6 +5,7 @@ import os
 
 
 # CSV 파일 경로 설정
+load_dotenv()
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # CSV 파일 로드 함수
@@ -12,12 +13,10 @@ CSV_PATH = st.secrets["CSV_FILE_PATH"]
 # CSV 파일 로드 함수 (매번 새로 로드하도록 설정)
 def load_data():
     try:
-        user_data = pd.read_csv(CSV_PATH)
-        return user_data
+        return pd.read_csv(CSV_PATH)
     except FileNotFoundError:
         st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
-        user_data = pd.DataFrame()
-        return user_data
+        return pd.DataFrame()
 
 # 데이터 로드
 data = load_data()
@@ -39,53 +38,47 @@ if "is_logged_in" not in st.session_state:
 
 # 로그인 함수
 def login():
+    user_data = load_data()
     name = st.session_state.input_name.strip()
     code = st.session_state.input_code.strip()
     
-    # user_data가 비어있지 않으면 이름과 코드를 통해 로그인 시도
-    if not data.empty:
-        user_row = data[(data['이름'] == name) & (data['코드'] == code)]
-
+    if not user_data.empty:
+        user_row = user_data[(user_data['이름'] == name) & (user_data['코드'] == code)]
         if not user_row.empty:
             st.session_state.is_logged_in = True
             st.session_state.name = name
             st.session_state.user_type = user_row.iloc[0]['분류']
-            
-            # 사용자별 메시지 표시
-            if st.session_state.user_type == "연수참여":
-                st.sidebar.success(f"{name} 선생님! 경금교 연수에 오신 것을 환영합니다.")
-            elif st.session_state.user_type == "강사":
-                st.sidebar.success(f"{name} 선생님! 오늘 연수 힘내세요!")
-            elif st.session_state.user_type == "운영지원":
-                st.sidebar.success(f"{name} 선생님! 오늘 하루 힘내세요!")
         else:
             st.sidebar.error("이름 또는 코드가 잘못되었습니다. 다시 입력해주세요.")
     else:
         st.error("User data가 비어 있습니다. 파일 내용을 확인하세요.")
 
+# 로그아웃 함수
 def logout():
     st.session_state.is_logged_in = False
     st.session_state.user_type = None
     st.session_state.name = None
 
-# 사이드바에 로그인 UI 및 메시지 표시
-with st.sidebar:
-    if not st.session_state.is_logged_in:
-        st.radio("로그인 유형 선택", ["연수 참여", "강사", "운영지원"], key="user_type_selection")
-        st.text_input("이름", key="input_name")
-        st.text_input("코드", key="input_code", type="password")
-        st.button("로그인", on_click=login)
-    else:
-        # 로그인한 상태에서 메시지 표시
-        if st.session_state.user_type == "연수 참여":
-            st.sidebar.success(f"{st.session_state.name} 선생님! 경금교 연수에 오신 것을 환영합니다.")
-        elif st.session_state.user_type == "강사":
-            st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 연수 힘내세요!")
-        elif st.session_state.user_type == "운영지원":
-            st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 하루 힘내세요!")
-        
-        # 로그아웃 버튼
-        st.button("로그아웃", on_click=logout)
+# 사이드바에 로그인 UI 표시
+def render_sidebar():
+    with st.sidebar:
+        if not st.session_state.is_logged_in:
+            st.radio("로그인 유형 선택", ["연수 참여", "강사", "운영지원"], key="user_type_selection")
+            st.text_input("이름", key="input_name")
+            st.text_input("코드", key="input_code", type="password")
+            st.button("로그인", on_click=login)
+        else:
+            if st.session_state.user_type == "연수 참여":
+                st.sidebar.success(f"{st.session_state.name} 선생님! 경금교 연수에 오신 것을 환영합니다.")
+            elif st.session_state.user_type == "강사":
+                st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 연수 힘내세요!")
+            elif st.session_state.user_type == "운영지원":
+                st.sidebar.success(f"{st.session_state.name} 선생님! 오늘 하루 힘내세요!")
+            st.button("로그아웃", on_click=logout)
+
+# 메인 페이지에서 사이드바 렌더링
+st.set_page_config(page_title="경제금융교육연구회", layout="wide")
+render_sidebar()
 # 탭 생성
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
 
