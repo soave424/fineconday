@@ -126,24 +126,29 @@ if st.session_state.get("is_logged_in"):
     </div>
 """, unsafe_allow_html=True)
 
-    # Prepare course data to display
-    course_data = []
-    for course in courses:
-        if pd.notna(course):
-            parts = course.split('/')
-            course_name = parts[0].strip()
-            instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
+    # Check if courses are empty before proceeding
+    if pd.notna(courses).any():
+        # Prepare course data to display
+        course_data = []
+        for course in courses:
+            if pd.notna(course):
+                parts = course.split('/')
+                course_name = parts[0].strip()
+                instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
+                    
+                # Create clickable link if available
+                course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
+                course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
             
-            # Create clickable link if available
-            course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
-            course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
-
-        # Display course information as HTML table
-        course_df = pd.DataFrame(course_data)
-        course_df.index = course_df.index + 1
-        st.write(f"{user_name}님의 강좌 목록:")
-        st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
-
+            # Display course information as HTML table
+            course_df = pd.DataFrame(course_data)
+            course_df.index = course_df.index + 1
+            st.write(f"{user_name}님의 강좌 목록:")
+            st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
+        
+        else:
+            st.info(f"{user_name}님의 선택된 강좌가 없습니다.")
+    
     else:
         st.warning("해당 이름과 코드에 해당하는 정보가 없습니다.")
 else:
