@@ -7,6 +7,7 @@ from app import render_sidebar
 
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="expanded")
 
+
 # 사이드바 로그인 상태 렌더링
 render_sidebar()
 
@@ -84,76 +85,67 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
+# If user is logged in, use their information directly from session_state
+if st.session_state.get("is_logged_in"):
+    name = st.session_state.get("name")
+    code = st.session_state.get("code")  # Now using `code` from session_state
+    
+    # Filter user data by 'name' and 'code' columns
+    user_data = data[(data['이름'] == name) & (data['코드'] == code)]
+    
+    if not user_data.empty:
+        # Display user info and course list
+        user_name = f"{name} ({user_data['지역'].iloc[0]})"
+        courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
+        
+    # 강좌 정보 사전
+    course_info = {
+        "초등형 MBTI 클래시파이 : 웹개발스토리와 감정소진없이 학급경영하기": ("김태림쌤", "미정","https://classify.co.kr/"),
+        "창업과 투자 그리고 기업가정신까지!? 일석삼조 효과의 '어쩌다 초등 사장' 프로젝트": ("쭈니쌤", "미정","https://blog.naver.com/prologue/PrologueList.naver?blogId=wnsgud3061&skinType=&skinId=&from=menu&userSelectMenu=true"),
+        "경제교육보드게임, 캐쉬플로우": ("박민수쌤", "미정",""),
+        "왕초보도 따라하는 학급화폐 1년 로드맵": ("좋아유쌤", "미정","https://www.youtube.com/@YuDongHyunTV"),
+        "내 아이의 금융 문해력 기르기": ("댈님", "미정",""),
+        "도구없이 누구나 할 수 있는 교육마술": ("이화수쌤", "미정",""),
+        "이렇게만 따라하세요! 20대 내 집 마련 루트": ("가드닝쌤", "미정",""),
+        "코로나 실전 투자 경험을 통해 배운 행복한 부자로 가는 길": ("노현진쌤", "미정",""),
+        "은또링샘의 친절한 재무제표 분석 (feat. 미리 캔버스)": ("은또링쌤", "미정",""),
+        "내집마련 도전기: 꿈을 현실로 만드는 첫걸음": ("먹태쌤", "미정",""),
+        "학교에서 시작하는 부수입 노하우": ("퇴근맨", "미정",""),
+        "부린이도 할 수 있다! 같은 돈으로 더 오르는 내집 마련 A to Z": ("홍당무쌤", "미정",""),
+        "교사를 위한 퍼스널 브랜딩 & 꼬꼬무 부수입 by 진격의홍쌤": ("진격의홍쌤", "미정",""),
+        "미친 자에게 건배를: 부동산 투자에 미친 자의 이야기": ("다니쌤", "미정",""),
+        "소비형 인간에서 저축형 인간 마인드셋하기": ("따롱쌤", "미정",""),
+        "선생님의 돈공부: 재무관리와 내 삶 기획하기": ("달구쌤", "미정","")
+    }
 
-# 강좌 정보 사전
-course_info = {
-    "초등형 MBTI 클래시파이 : 웹개발스토리와 감정소진없이 학급경영하기": ("김태림쌤", "미정","https://classify.co.kr/"),
-    "창업과 투자 그리고 기업가정신까지!? 일석삼조 효과의 '어쩌다 초등 사장' 프로젝트": ("쭈니쌤", "미정","https://blog.naver.com/prologue/PrologueList.naver?blogId=wnsgud3061&skinType=&skinId=&from=menu&userSelectMenu=true"),
-    "경제교육보드게임, 캐쉬플로우": ("박민수쌤", "미정",""),
-    "왕초보도 따라하는 학급화폐 1년 로드맵": ("좋아유쌤", "미정","https://www.youtube.com/@YuDongHyunTV"),
-    "내 아이의 금융 문해력 기르기": ("댈님", "미정",""),
-    "도구없이 누구나 할 수 있는 교육마술": ("이화수쌤", "미정",""),
-    "이렇게만 따라하세요! 20대 내 집 마련 루트": ("가드닝쌤", "미정",""),
-    "코로나 실전 투자 경험을 통해 배운 행복한 부자로 가는 길": ("노현진쌤", "미정",""),
-    "은또링샘의 친절한 재무제표 분석 (feat. 미리 캔버스)": ("은또링쌤", "미정",""),
-    "내집마련 도전기: 꿈을 현실로 만드는 첫걸음": ("먹태쌤", "미정",""),
-    "학교에서 시작하는 부수입 노하우": ("퇴근맨", "미정",""),
-    "부린이도 할 수 있다! 같은 돈으로 더 오르는 내집 마련 A to Z": ("홍당무쌤", "미정",""),
-    "교사를 위한 퍼스널 브랜딩 & 꼬꼬무 부수입 by 진격의홍쌤": ("진격의홍쌤", "미정",""),
-    "미친 자에게 건배를: 부동산 투자에 미친 자의 이야기": ("다니쌤", "미정",""),
-    "소비형 인간에서 저축형 인간 마인드셋하기": ("따롱쌤", "미정",""),
-    "선생님의 돈공부: 재무관리와 내 삶 기획하기": ("달구쌤", "미정","")
-}
-
-# 페이지 제목과 홈 버튼
-st.markdown("""
+    # 페이지 제목과 홈 버튼
+    st.markdown("""
     <div class="title-container">
         <h1>강좌 시간표 확인</h1>
         <a href="/" target="_self" class="home-button">홈으로</a>
     </div>
 """, unsafe_allow_html=True)
 
-# 사용자 입력
-name = st.text_input("이름을 입력하세요:")
-phone_suffix = st.text_input("전화번호 뒷자리를 입력하세요:")
+    # Prepare course data to display
+    course_data = []
+    for course in courses:
+        if pd.notna(course):
+            parts = course.split('/')
+            course_name = parts[0].strip()
+            instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
+            
+            # Create clickable link if available
+            course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
+            course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
 
-# 조회 버튼 클릭 시 시간표 확인
-if st.button("시간표 조회"):
-    # 전화번호 뒷자리 필터링을 위해 '전번' 열에서 뒷자리 부분만 추출
-    data['전화번호_뒷자리'] = data['전번'].astype(str).str[-4:]
-
-    # 이름과 전화번호 뒷자리로 사용자 데이터 필터링
-    user_data = data[(data['이름'] == name) & (data['전화번호_뒷자리'] == phone_suffix)]
-
-    if not user_data.empty:
-        # 이름(지역) 포맷
-        user_name = f"{name} ({user_data['지역'].iloc[0]})"
-        
-        # 강좌 정보 테이블 생성
-        courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
-        course_data = []
-
-        for course in courses:
-            if pd.notna(course):
-                parts = course.split('/')
-                course_name = parts[0].strip()
-                instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
-                
-                # 링크가 있으면 링크를 포함한 HTML, 없으면 텍스트만 표시
-                if link:
-                    course_link = f"<a href='{link}' target='_blank'>{course_name}</a>"
-                else:
-                    course_link = course_name  # 링크가 없으면 단순 텍스트로 표시
-
-                course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
-
+        # Display course information as HTML table
         course_df = pd.DataFrame(course_data)
         course_df.index = course_df.index + 1
-
         st.write(f"{user_name}님의 강좌 목록:")
-
-        # HTML table 출력
         st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
-    else:
-        st.warning("해당 이름과 전화번호 뒷자리에 해당하는 정보가 없습니다.")
 
+    else:
+        st.warning("해당 이름과 코드에 해당하는 정보가 없습니다.")
+else:
+    # If not logged in, prompt for manual input
+    st.info("로그인이 필요합니다. 사이드바에서 로그인하세요.")
