@@ -136,8 +136,7 @@ if st.session_state.is_logged_in and st.session_state.user_type == "연수참여
         for course in courses:
             parts = course.split('/')
             course_name = parts[0].strip()
-            instructor = parts[1].strip() if len(parts) > 1 else ""
-            classroom, link = course_info.get(course_name, ("미정", ""))
+            instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
 
             # Create link if available
             course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
