@@ -77,8 +77,8 @@ def render_sidebar():
             st.button("로그아웃", on_click=logout)
 
 # 메인 페이지에서 사이드바 렌더링
-st.set_page_config(page_title="경제금융교육연구회", layout="wide")
 render_sidebar()
+
 # 탭 생성
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
 

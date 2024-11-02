@@ -2,8 +2,13 @@ import streamlit as st
 import pandas as pd
 from dotenv import load_dotenv
 import os
+from app import render_sidebar
+
 
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="collapsed")
+
+# 사이드바 로그인 상태 렌더링
+render_sidebar()
 
 # CSV 파일 경로 설정
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
