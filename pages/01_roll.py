@@ -32,7 +32,7 @@ def load_data():
         df = pd.read_csv(CSV_PATH)
         # Clean up data for consistency
         df['이름'] = df['이름'].str.strip()
-        df['코드'] = df['코드'].astype(str).str.strip()
+        df['입장코드'] = df['입장코드'].astype(str).str.strip()
         return df
     except FileNotFoundError:
         st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
@@ -125,7 +125,7 @@ if st.session_state.is_logged_in and st.session_state.user_type == "연수참여
     code = st.session_state.get("code", "").strip()  # Defaults to empty string if not set
 
     # Filter user data by 'name' and 'code' columns with stripped strings for consistency
-    user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
+    user_data = data[(data['이름'] == name) & (data['입장코드'].str.strip() == code)]
 
     if not user_data.empty:
         # Retrieve user info and display courses
@@ -151,7 +151,7 @@ if st.session_state.is_logged_in and st.session_state.user_type == "연수참여
         st.write(f"{user_name}님의 강좌 목록:")
         st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
     else:
-        st.warning(f"해당 이름과 코드로 일치하는 강좌 정보를 찾을 수 없습니다. (이름: {name}, 코드: {code})")
+        st.warning(f"해당 이름과 코드로 일치하는 강좌 정보를 찾을 수 없습니다. (이름: {name}, 입장코드: {code})")
 else:
     # Message for users who are not "연수참여" or are not logged in
     st.warning("연수 참여 선생님을 위한 강의 시간표 확인 페이지입니다. 사이드바에서 로그인해주세요.")
