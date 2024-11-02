@@ -8,18 +8,6 @@ import os
 load_dotenv()
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
-# CSV 파일 로드 함수
-# @st.cache_data
-# CSV 파일 로드 함수 (매번 새로 로드하도록 설정)
-def load_data():
-    try:
-        return pd.read_csv(CSV_PATH)
-    except FileNotFoundError:
-        st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
-        return pd.DataFrame()
-
-# 데이터 로드
-data = load_data()
 # 페이지 설정
 st.set_page_config(
     page_title="경제금융교육연구회",
@@ -36,25 +24,39 @@ if "is_logged_in" not in st.session_state:
     st.session_state.user_type = None
     st.session_state.name = None
 
+# CSV 파일 로드 함수
+# @st.cache_data
+# CSV 파일 로드 함수 (매번 새로 로드하도록 설정)
+def load_data():
+    try:
+        df = pd.read_csv(CSV_PATH)
+        df['이름'] = df['이름'].str.strip()
+        df['코드'] = df['코드'].astype(str).str.strip()
+        return df
+    except FileNotFoundError:
+        st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
+        return pd.DataFrame()
+
+
+# 데이터 로드
+data = load_data()
+
+
+
 # 로그인 함수
 def login():
-    user_data = load_data()
     name = st.session_state.input_name.strip()
     code = st.session_state.input_code.strip()
     
-    user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
+    user_data = data[(data['이름'] == name) & (data['코드'] == code)]
 
     if not user_data.empty:
-        user_row = user_data[(user_data['이름'] == name) & (user_data['코드'] == code)]
-        if not user_row.empty:
-            st.session_state.is_logged_in = True
-            st.session_state.name = name
-            st.session_state.code = code
-            st.session_state.user_type = user_row.iloc[0]['분류']
-        else:
-            st.sidebar.error("이름 또는 코드가 잘못되었습니다. 다시 입력해주세요.(이름: {name}, 코드: {code})")
+        st.session_state.is_logged_in = True
+        st.session_state.name = name
+        st.session_state.code = code
+        st.session_state.user_type = user_data.iloc[0]['분류']
     else:
-        st.error("User data가 비어 있습니다. 파일 내용을 확인하세요.")
+        st.sidebar.error("이름 또는 코드가 잘못되었습니다. 다시 입력해주세요.(이름: {name}, 코드: {code})")
 
 # 로그아웃 함수
 def logout():
