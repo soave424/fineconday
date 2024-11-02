@@ -42,6 +42,8 @@ def login():
     name = st.session_state.input_name.strip()
     code = st.session_state.input_code.strip()
     
+    user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
+
     if not user_data.empty:
         user_row = user_data[(user_data['이름'] == name) & (user_data['코드'] == code)]
         if not user_row.empty:
