@@ -31,7 +31,7 @@ def load_data():
     try:
         df = pd.read_csv(CSV_PATH)
         df['이름'] = df['이름'].str.strip()
-        df['코드'] = df['코드'].astype(str).str.strip()
+        df['입장코드'] = df['입장코드'].astype(str).str.strip()
         return df
     except FileNotFoundError:
         st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
@@ -48,7 +48,7 @@ def login():
     name = st.session_state.input_name.strip()
     code = st.session_state.input_code.strip()
     
-    user_data = data[(data['이름'] == name) & (data['코드'] == code)]
+    user_data = data[(data['이름'] == name) & (data['입장코드'] == code)]
 
     if not user_data.empty:
         st.session_state.is_logged_in = True
@@ -70,7 +70,7 @@ def render_sidebar():
         if not st.session_state.is_logged_in:
             st.radio("로그인 유형 선택", ["연수참여", "강사", "운영지원"], key="user_type_selection")
             st.text_input("이름", key="input_name")
-            st.text_input("입장 코드(핸드폰 뒷자리)", key="input_code", type="password")
+            st.text_input("입장코드(핸드폰 뒷자리)", key="input_code", type="password")
             st.button("로그인", on_click=login)
         else:
             st.session_state.name = data['이름']
