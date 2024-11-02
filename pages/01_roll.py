@@ -7,6 +7,10 @@ from app import render_sidebar
 
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="expanded")
 
+load_dotenv()
+# CSV 파일 경로 설정
+CSV_PATH = st.secrets["CSV_FILE_PATH"]
+
 # Initialize session state variables
 if "is_logged_in" not in st.session_state:
     st.session_state.is_logged_in = False
@@ -19,8 +23,6 @@ if "code" not in st.session_state:
 # 사이드바 로그인 상태 렌더링
 render_sidebar()
 
-# CSV 파일 경로 설정
-CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # CSV 파일 로드 함수
 # @st.cache_data
@@ -118,35 +120,38 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Ensure '코드' and '이름' are retrieved safely with defaults to avoid NoneType errors
-name = st.session_state.get("name", "").strip()  # Defaults to empty string if not set
-code = st.session_state.get("code", "").strip()  # Defaults to empty string if not set
+if st.session_state.is_logged_in and st.session_state.user_type == "연수참여":
+    name = st.session_state.get("name", "").strip()  # Defaults to empty string if not set
+    code = st.session_state.get("code", "").strip()  # Defaults to empty string if not set
 
-# Filter user data by 'name' and 'code' columns with stripped strings for consistency
-user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
+    # Filter user data by 'name' and 'code' columns with stripped strings for consistency
+    user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
 
-if not user_data.empty:
-    # Retrieve user info and display courses
-    user_name = f"{name} ({user_data['지역'].iloc[0]})"
-    courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
-    courses = [course for course in courses if pd.notna(course)]  # Remove empty courses
+    if not user_data.empty:
+        # Retrieve user info and display courses
+        user_name = f"{name} ({user_data['지역'].iloc[0]})"
+        courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
+        courses = [course for course in courses if pd.notna(course)]  # Remove empty courses
 
-    # Prepare and display course data
-    course_data = []
-    for course in courses:
-        parts = course.split('/')
-        course_name = parts[0].strip()
-        instructor = parts[1].strip() if len(parts) > 1 else ""
-        classroom, link = course_info.get(course_name, ("미정", ""))
+        # Prepare and display course data
+        course_data = []
+        for course in courses:
+            parts = course.split('/')
+            course_name = parts[0].strip()
+            instructor = parts[1].strip() if len(parts) > 1 else ""
+            classroom, link = course_info.get(course_name, ("미정", ""))
 
-        # Create link if available
-        course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
-        course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
+            # Create link if available
+            course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
+            course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
 
-    # Display table
-    course_df = pd.DataFrame(course_data)
-    course_df.index += 1
-    st.write(f"{user_name}님의 강좌 목록:")
-    st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
+        # Display table
+        course_df = pd.DataFrame(course_data)
+        course_df.index += 1
+        st.write(f"{user_name}님의 강좌 목록:")
+        st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
+    else:
+        st.warning(f"해당 이름과 코드로 일치하는 강좌 정보를 찾을 수 없습니다. (이름: {name}, 코드: {code})")
 else:
-    st.warning(f"해당 이름과 코드로 일치하는 강좌 정보를 찾을 수 없습니다. (이름: {name}, 코드: {code})")
+    # Message for users who are not "연수참여" or are not logged in
+    st.warning("연수 참여 선생님을 위한 강의 시간표 확인 페이지입니다. 사이드바에서 로그인해주세요.")
