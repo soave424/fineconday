@@ -3,6 +3,17 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 
+
+# CSV 파일 경로 설정
+CSV_PATH = "hidden_data.csv"  # 실제 파일 위치로 설정
+
+# 파일이 존재하는지 확인하고 데이터 로드
+if os.path.exists(CSV_PATH):
+    user_data = pd.read_csv(CSV_PATH)
+else:
+    st.error("User data CSV 파일을 찾을 수 없습니다. 파일 경로를 확인하세요.")
+
+
 # 페이지 설정
 st.set_page_config(
     page_title="경제금융교육연구회",
