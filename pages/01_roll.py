@@ -113,95 +113,47 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# # 사용자 입력
-# name = st.text_input("이름을 입력하세요:")
-# phone_suffix = st.text_input("전화번호 뒷자리를 입력하세요:")
+# 사용자 입력
+name = st.text_input("이름을 입력하세요:")
+phone_suffix = st.text_input("전화번호 뒷자리를 입력하세요:")
 
-# # 조회 버튼 클릭 시 시간표 확인
-# if st.button("시간표 조회"):
-#     # 전화번호 뒷자리 필터링을 위해 '전번' 열에서 뒷자리 부분만 추출
-#     data['전화번호_뒷자리'] = data['전번'].astype(str).str[-4:]
+# 조회 버튼 클릭 시 시간표 확인
+if st.button("시간표 조회"):
+    # 전화번호 뒷자리 필터링을 위해 '전번' 열에서 뒷자리 부분만 추출
+    data['전화번호_뒷자리'] = data['전번'].astype(str).str[-4:]
 
-#     # 이름과 전화번호 뒷자리로 사용자 데이터 필터링
-#     user_data = data[(data['이름'] == name) & (data['전화번호_뒷자리'] == phone_suffix)]
+    # 이름과 전화번호 뒷자리로 사용자 데이터 필터링
+    user_data = data[(data['이름'] == name) & (data['전화번호_뒷자리'] == phone_suffix)]
 
-#     if not user_data.empty:
-#         # 이름(지역) 포맷
-#         user_name = f"{name} ({user_data['지역'].iloc[0]})"
-        
-#         # 강좌 정보 테이블 생성
-#         courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
-#         course_data = []
-
-#         for course in courses:
-#             if pd.notna(course):
-#                 parts = course.split('/')
-#                 course_name = parts[0].strip()
-#                 instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
-                
-#                 # 링크가 있으면 링크를 포함한 HTML, 없으면 텍스트만 표시
-#                 if link:
-#                     course_link = f"<a href='{link}' target='_blank'>{course_name}</a>"
-#                 else:
-#                     course_link = course_name  # 링크가 없으면 단순 텍스트로 표시
-
-#                 course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
-
-#         course_df = pd.DataFrame(course_data)
-#         course_df.index = course_df.index + 1
-
-#         st.write(f"{user_name}님의 강좌 목록:")
-
-#         # HTML table 출력
-#         st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
-#     else:
-#         st.warning("해당 이름과 전화번호 뒷자리에 해당하는 정보가 없습니다.")
-
-# 사이드바에서 로그인 정보 확인
-if "name" not in st.session_state or "code" not in st.session_state:
-    # 이름과 전화번호 입력받기
-    st.sidebar.subheader("로그인")
-    name = st.sidebar.text_input("이름을 입력하세요:")
-    phone_suffix = st.sidebar.text_input("전화번호 뒷자리를 입력하세요:")
-    if st.sidebar.button("로그인"):
-        # 전화번호 뒷자리 필터링을 위해 '전화번호' 열에서 뒷자리만 추출
-        data['전화번호_뒷자리'] = data['전화번호'].astype(str).str[-4:]
-        
-        # 사용자 데이터 필터링
-        user_data = data[(data['이름'] == name) & (data['전화번호_뒷자리'] == phone_suffix)]
-        
-        if not user_data.empty:
-            st.session_state.name = name
-            st.session_state.code = phone_suffix
-            st.sidebar.success(f"{name} 선생님, 환영합니다!")
-        else:
-            st.sidebar.warning("해당 이름과 전화번호 뒷자리에 해당하는 정보가 없습니다.")
-else:
-    st.sidebar.write(f"{st.session_state.name} 선생님, 환영합니다!")
-    if st.sidebar.button("로그아웃"):
-        del st.session_state.name
-        del st.session_state.code
-
-# 강좌 시간표 조회 섹션
-if "name" in st.session_state:
-    # 세션 정보가 있는 경우 강좌 목록 표시
-    user_data = data[(data['이름'] == st.session_state.name) & (data['전화번호_뒷자리'] == st.session_state.code)]
     if not user_data.empty:
-        user_name = f"{st.session_state.name} ({user_data['지역'].iloc[0]})"
+        # 이름(지역) 포맷
+        user_name = f"{name} ({user_data['지역'].iloc[0]})"
         
+        # 강좌 정보 테이블 생성
         courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
         course_data = []
-        
+
         for course in courses:
             if pd.notna(course):
-                course_name, instructor, link = course_info.get(course.split('/')[0].strip(), ("", "미정", ""))
-                course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
-                course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": "미정"})
-        
+                parts = course.split('/')
+                course_name = parts[0].strip()
+                instructor, classroom, link = course_info.get(course_name, ("", "미정", ""))
+                
+                # 링크가 있으면 링크를 포함한 HTML, 없으면 텍스트만 표시
+                if link:
+                    course_link = f"<a href='{link}' target='_blank'>{course_name}</a>"
+                else:
+                    course_link = course_name  # 링크가 없으면 단순 텍스트로 표시
+
+                course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
+
         course_df = pd.DataFrame(course_data)
         course_df.index = course_df.index + 1
 
         st.write(f"{user_name}님의 강좌 목록:")
+
+        # HTML table 출력
         st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
-else:
-    st.warning("로그인 후 강좌 정보를 조회할 수 있습니다.")
+    else:
+        st.warning("해당 이름과 전화번호 뒷자리에 해당하는 정보가 없습니다.")
+
