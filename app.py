@@ -31,6 +31,7 @@ st.set_page_config(
 
 st.logo("image/logo.png", size="large", link="https://cafe.naver.com/financialeducation")
 
+# 로그인 상태 초기화
 if "is_logged_in" not in st.session_state:
     st.session_state.is_logged_in = False
     st.session_state.user_type = None
@@ -42,9 +43,9 @@ def login():
     code = st.session_state.input_code.strip()
     
     # user_data가 비어있지 않으면 이름과 코드를 통해 로그인 시도
-    if not user_data.empty:
-        user_row = user_data[(user_data['이름'] == name) & (user_data['코드'] == code)]
-        
+    if not data.empty:
+        user_row = data[(data['이름'] == name) & (data['코드'] == code)]
+
         if not user_row.empty:
             st.session_state.is_logged_in = True
             st.session_state.name = name
@@ -67,7 +68,7 @@ def logout():
     st.session_state.user_type = None
     st.session_state.name = None
 
-# 사이드바에 로그인/로그아웃 기능 추가
+# 사이드바에 로그인 UI 추가
 with st.sidebar:
     if not st.session_state.is_logged_in:
         st.radio("로그인 유형 선택", ["연수 참여", "강사", "운영지원"], key="user_type_selection")
