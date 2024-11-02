@@ -16,10 +16,14 @@ CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
 # CSV 파일 로드 함수
 # @st.cache_data
-# CSV 파일 로드 함수 (매번 새로 로드하도록 설정)
+# CSV file load function
 def load_data():
     try:
-        return pd.read_csv(CSV_PATH)
+        df = pd.read_csv(CSV_PATH)
+        # Clean up data for consistency
+        df['이름'] = df['이름'].str.strip()
+        df['코드'] = df['코드'].astype(str).str.strip()
+        return df
     except FileNotFoundError:
         st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
         return pd.DataFrame()
@@ -108,14 +112,14 @@ st.markdown("""
 
 # Check if user is logged in and display relevant data
 if st.session_state.get("is_logged_in"):
-    name = st.session_state.get("name")
-    code = st.session_state.get("code")  # Using `code` from session_state
+    name = st.session_state.get("name").strip()
+    code = st.session_state.get("code").strip()  # Using `code` from session_state
     
-    # Filter user data based on session name and code
+    # Filter user data by 'name' and 'code' columns with stripped strings for consistency
     user_data = data[(data['이름'] == name) & (data['코드'] == code)]
     
     if not user_data.empty:
-        # Display user information and course list
+        # Display user info and course list
         user_name = f"{name} ({user_data['지역'].iloc[0]})"
         courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
         
@@ -144,7 +148,7 @@ if st.session_state.get("is_logged_in"):
             st.info(f"{user_name}님의 선택된 강좌가 없습니다.")
     
     else:
-        st.warning("해당 이름과 코드에 해당하는 정보가 없습니다.")
+        st.warning("해당 이름과 코드에 해당하는 정보가 CSV에서 발견되지 않았습니다.")
 else:
     # If not logged in, prompt for manual input
     st.info("로그인이 필요합니다. 사이드바에서 로그인하세요.")
