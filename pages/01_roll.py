@@ -11,14 +11,12 @@ load_dotenv()
 # CSV 파일 경로 설정
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
-# Initialize session state variables
+# Initialize session state for login tracking
 if "is_logged_in" not in st.session_state:
     st.session_state.is_logged_in = False
-if "name" not in st.session_state:
+    st.session_state.user_type = None
     st.session_state.name = ""
-if "code" not in st.session_state:
-    st.session_state.code = ""
-
+    st.session_state.entrance_code = ""
 
 # 사이드바 로그인 상태 렌더링
 render_sidebar()
@@ -155,4 +153,3 @@ if st.session_state.is_logged_in and st.session_state.user_type == "연수참여
 else:
     # Message for users who are not "연수참여" or are not logged in
     st.warning("연수 참여 선생님을 위한 강의 시간표 확인 페이지입니다. 사이드바에서 로그인해주세요.")
-    
