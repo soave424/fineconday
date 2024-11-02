@@ -30,7 +30,6 @@ render_sidebar()
 def load_data():
     try:
         df = pd.read_csv(CSV_PATH)
-        # Clean up data for consistency
         df['이름'] = df['이름'].str.strip()
         df['입장코드'] = df['입장코드'].astype(str).str.strip()
         return df
@@ -121,17 +120,18 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 if st.session_state.is_logged_in and st.session_state.user_type == "연수참여":
-    name = st.session_state.get("name", "").strip()  # Defaults to empty string if not set
-    code = st.session_state.get("code", "").strip()  # Defaults to empty string if not set
+    # Retrieve name and entrance_code from session state
+    name = st.session_state.get("name", "").strip()
+    entrance_code = st.session_state.get("entrance_code", "").strip()
 
     # Filter user data by 'name' and 'code' columns with stripped strings for consistency
-    user_data = data[(data['이름'] == name) & (data['입장코드'].str.strip() == code)]
+    user_data = data[(data['이름'] == name) & (data['입장코드'] == entrance_code)]
 
     if not user_data.empty:
-        # Retrieve user info and display courses
+        # Display user information and their selected courses
         user_name = f"{name} ({user_data['지역'].iloc[0]})"
         courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
-        courses = [course for course in courses if pd.notna(course)]  # Remove empty courses
+        courses = [course for course in courses if pd.notna(course)]  # Filter out empty courses
 
         # Prepare and display course data
         course_data = []
@@ -145,13 +145,14 @@ if st.session_state.is_logged_in and st.session_state.user_type == "연수참여
             course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
             course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
 
-        # Display table
+        # Display course table
         course_df = pd.DataFrame(course_data)
         course_df.index += 1
         st.write(f"{user_name}님의 강좌 목록:")
         st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
     else:
-        st.warning(f"해당 이름과 코드로 일치하는 강좌 정보를 찾을 수 없습니다. (이름: {name}, 입장코드: {code})")
+        st.warning(f"해당 이름과 입장코드로 일치하는 강좌 정보를 찾을 수 없습니다. (이름: {name}, 입장코드: {entrance_code})")
 else:
     # Message for users who are not "연수참여" or are not logged in
     st.warning("연수 참여 선생님을 위한 강의 시간표 확인 페이지입니다. 사이드바에서 로그인해주세요.")
+    
