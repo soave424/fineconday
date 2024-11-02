@@ -124,30 +124,27 @@ code = st.session_state.get("code", "").strip()  # Defaults to empty string if n
 user_data = data[(data['이름'] == name) & (data['코드'].str.strip() == code)]
 
 if not user_data.empty:
-    # Display user info and course list
+    # Retrieve user info and display courses
     user_name = f"{name} ({user_data['지역'].iloc[0]})"
     courses = user_data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].values.flatten()
-    
-    # Filter out any empty courses
-    courses = [course for course in courses if pd.notna(course)]
+    courses = [course for course in courses if pd.notna(course)]  # Remove empty courses
 
-    # Prepare course data to display
+    # Prepare and display course data
     course_data = []
     for course in courses:
-        if pd.notna(course):
-            parts = course.split('/')
-            course_name = parts[0].strip()
-            instructor = parts[1].strip() if len(parts) > 1 else ""
-            classroom, link = course_info.get(course_name, ("미정", ""))
+        parts = course.split('/')
+        course_name = parts[0].strip()
+        instructor = parts[1].strip() if len(parts) > 1 else ""
+        classroom, link = course_info.get(course_name, ("미정", ""))
 
-            # Create clickable link if available
-            course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
-            course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
-        
-    # Display course information as HTML table
+        # Create link if available
+        course_link = f"<a href='{link}' target='_blank'>{course_name}</a>" if link else course_name
+        course_data.append({"강좌명": course_link, "강사명": instructor, "강의실": classroom})
+
+    # Display table
     course_df = pd.DataFrame(course_data)
-    course_df.index = course_df.index + 1
+    course_df.index += 1
     st.write(f"{user_name}님의 강좌 목록:")
     st.markdown(course_df.to_html(escape=False, classes="styled-table"), unsafe_allow_html=True)
 else:
-    st.warning(f"{name}{code}해당 이름과 코드에 해당하는 정보가 없습니다.")
+    st.warning(f"해당 이름과 코드로 일치하는 강좌 정보를 찾을 수 없습니다. (이름: {name}, 코드: {code})")

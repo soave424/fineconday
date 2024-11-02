@@ -52,7 +52,7 @@ def login():
             st.session_state.code = code
             st.session_state.user_type = user_row.iloc[0]['분류']
         else:
-            st.sidebar.error("이름 또는 코드가 잘못되었습니다. 다시 입력해주세요.")
+            st.sidebar.error("이름 또는 코드가 잘못되었습니다. 다시 입력해주세요.(이름: {name}, 코드: {code})")
     else:
         st.error("User data가 비어 있습니다. 파일 내용을 확인하세요.")
 
