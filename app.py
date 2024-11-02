@@ -47,6 +47,7 @@ def login():
         if not user_row.empty:
             st.session_state.is_logged_in = True
             st.session_state.name = name
+            st.session_state.code = code
             st.session_state.user_type = user_row.iloc[0]['분류']
         else:
             st.sidebar.error("이름 또는 코드가 잘못되었습니다. 다시 입력해주세요.")
