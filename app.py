@@ -81,7 +81,7 @@ def render_sidebar():
         if not st.session_state.is_logged_in:
             st.radio("로그인 유형 선택", ["연수참여", "강사", "운영지원"], key="user_type_selection")
             st.text_input("이름", key="input_name")
-            st.text_input("입장코드(핸드폰 뒷자리 또는 강사코드)", key="input_ecode", type="password")
+            st.text_input("입장코드(핸드폰 마지막 4자리 또는 강사코드)", key="input_ecode", type="password")
             if st.button("로그인"):
                 login()
         else:
@@ -100,7 +100,7 @@ def render_sidebar():
 render_sidebar()
 
 # 탭 생성
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒤풀이 신청"])
 
 # 점심 메뉴와 대응 이미지, 설명 매핑
 menu_details = {
@@ -262,6 +262,6 @@ with tab4:
 #     st.image("image/menu.png", caption="", use_column_width=True)
 
 
-# 탭 5: 뒷풀이 신청
+# 탭 5: 뒤풀이 신청
 with tab5:
-    st.header("뒷풀이 신청")
+    st.header("뒤풀이 신청")
