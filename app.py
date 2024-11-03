@@ -191,6 +191,19 @@ with tab3:
 
 # 탭 4: 점심 안내
 with tab4:
+    lunch_menu = data['점심메뉴'].dropna().unique()  # NaN 제거 후, 고유 메뉴만 가져오기
+    for menu in lunch_menu:
+        st.write(f"- {menu}")
+
+    st.markdown(
+    """
+    <div class="button-container">
+        <a class="button-link" href="https://forms.gle/QfXYQrMgHWakHfux8" target="_self">점심메뉴 신청하기🌯</a>
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
+    
     st.header("점심 안내")
     
     st.markdown("""
