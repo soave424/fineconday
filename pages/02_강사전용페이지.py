@@ -91,14 +91,18 @@ for column in required_columns:
 # """, unsafe_allow_html=True)
 
 
-# 강좌 선택
-selected_course = st.selectbox("강좌를 선택하세요:", options=list(course_info.keys()))
-course_instructor, course_code, _ = course_info[selected_course]
-display_course_name = f"{selected_course} ({course_instructor})"
-
 # 강좌 코드 입력
 entered_code = st.session_state.entrance_code
+# entrance_code에 해당하는 강좌 자동 선택
+selected_course = None
+for course, (instructor, code, _) in course_info.items():
+    if code == entered_code:
+        selected_course = course
+        course_instructor, course_code, _ = course_info[selected_course]
+        display_course_name = f"{selected_course} ({course_instructor})"
+        break
 
+st.header(f"**'{display_course_name}' 강좌 신청 명단**")
 
 # 조회 버튼이 눌리면 강좌 코드 확인 후 필터링 수행
 if st.button("조회"):
