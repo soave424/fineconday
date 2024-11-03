@@ -68,45 +68,54 @@ def load_data():
 # 데이터 로드
 data = load_data()
 
-# 강사 인증 및 명단 조회 로직
-if st.session_state.is_logged_in and st.session_state.user_type == "강사":
-    # 사이드바에서 강사 코드 가져오기
-    instructor_code = st.session_state.get("code", "").strip()
-    
-    # 강사 코드에 해당하는 강좌를 찾기
-    selected_course, instructor_name = None, None
-    for course_name, (name, code, _) in course_info.items():
-        if code == instructor_code:
-            selected_course = course_name
-            instructor_name = name
-            break
-    
-    if selected_course:
-        # 강좌명과 강사명으로 제목 표시
-        display_course_name = f"{selected_course} ({instructor_name})"
-        st.write(f"### {display_course_name} 신청자 명단")
+# 기본 열이 없을 경우 추가
+required_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3', '등록']
+for column in required_columns:
+    if column not in data.columns:
+        data[column] = ""
 
-        # 선택된 강좌의 신청자 필터링
+# # 페이지 제목과 홈 버튼
+# st.markdown("""
+#     <div class="title-button-container">
+#         <h1>강사전용 페이지</h1>
+#         <a href="/" class="home-button">홈으로</a>
+#     </div>
+# """, unsafe_allow_html=True)
+
+# 강좌 선택
+selected_course = st.selectbox("강좌를 선택하세요:", options=list(course_info.keys()))
+course_instructor, course_code, _ = course_info[selected_course]
+display_course_name = f"{selected_course} ({course_instructor})"
+
+# 강좌 코드 입력
+entered_code = st.text_input("강좌 코드를 입력하세요", type="password")
+
+# 조회 버튼이 눌리면 강좌 코드 확인 후 필터링 수행
+if st.button("조회"):
+    # 선택된 강좌 코드와 입력한 코드 확인
+    if entered_code == course_code:
+        # 선택된 강좌에 해당하는 신청자 필터링
         course_attendees = data[
             data[['선택 강좌 1', '선택 강좌 2', '선택 강좌 3']].apply(
                 lambda row: any(selected_course in str(course) for course in row), axis=1
             )
         ]
 
+        # 강좌 신청 조회 코드의 일부 수정
         if not course_attendees.empty:
-            # 등록 상태에 따라 정렬
+            # '등록' 열의 값이 True인 경우 상단에 배치하고 나머지는 이름 가나다순으로 정렬
             course_attendees['등록상태'] = course_attendees['등록'].apply(lambda x: 1 if x is True else 0)
             sorted_course_attendees = course_attendees.sort_values(
                 by=['등록상태', '이름'], ascending=[False, True]
-            ).drop(columns=['등록상태'])
+            ).drop(columns=['등록상태'])  # 임시 열 '등록상태' 삭제
+            # 1부터 시작하는 인덱스 열 추가
             sorted_course_attendees = sorted_course_attendees.reset_index(drop=True)
             sorted_course_attendees['번호'] = sorted_course_attendees.index + 1
 
-            # 테이블 출력
+            # 필요한 열만 선택하여 '번호'를 포함하여 출력
+            st.write(f"**'{display_course_name}' 강좌를 신청한 명단:**")
             st.table(sorted_course_attendees[['번호', '이름', '지역', '등록']].set_index('번호'))
         else:
             st.warning(f"'{display_course_name}' 강좌에 신청한 사람이 없습니다.")
     else:
-        st.error("강사 코드와 일치하는 강좌가 없습니다.")
-else:
-    st.warning("강사 전용 페이지입니다. 사이드바에서 로그인해 주세요.")
+        st.error("잘못된 강좌 코드입니다. 다시 입력해주세요.")
