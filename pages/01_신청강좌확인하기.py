@@ -27,6 +27,8 @@ def load_data():
     try:
         df = pd.read_csv(CSV_PATH)
         df.columns = df.columns.str.strip()  # 열 이름 공백 제거
+        df['입장코드'] = df['입장코드'].astype(str).str.zfill(4)
+        df.to_csv(CSV_PATH, index=False)
         if "이름" not in df.columns or "입장코드" not in df.columns:
             st.error("CSV 파일에 '이름' 또는 '입장코드' 열이 없습니다.")
         return df

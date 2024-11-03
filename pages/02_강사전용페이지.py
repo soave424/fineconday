@@ -13,6 +13,14 @@ st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_sta
 load_dotenv()
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
 
+# Initialize session state for login tracking
+if "is_logged_in" not in st.session_state:
+    st.session_state.is_logged_in = False
+    st.session_state.user_type = None
+    st.session_state.name = ""
+    st.session_state.entrance_code = ""
+
+
 st.markdown("""
     <style>
         .title-button-container {
@@ -88,7 +96,9 @@ course_instructor, course_code, _ = course_info[selected_course]
 display_course_name = f"{selected_course} ({course_instructor})"
 
 # 강좌 코드 입력
+st.header(f"{st.session_state.entrance_code}")
 entered_code = st.text_input("강좌 코드를 입력하세요", type="password")
+
 
 # 조회 버튼이 눌리면 강좌 코드 확인 후 필터링 수행
 if st.button("조회"):
