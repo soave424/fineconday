@@ -223,7 +223,7 @@ with tab3:
 with tab4:
     selected_lunch_menu = st.session_state.lunch_menu
     st.header("점심 안내")
-    if selected_lunch_menu:
+    if st.session_state.lunch_menu:
             # 점심 메뉴 정보 설정
             lunch_info = menu_details.get(selected_lunch_menu, {"image": "", "message": "선택한 점심 메뉴가 없습니다."})
             image_path = lunch_info["image"]
@@ -243,9 +243,7 @@ with tab4:
 
     else:
         # 로그인하지 않거나 선택된 메뉴가 없는 경우
-        st.write("로그인이 필요합니다. 사이드바에서 로그인 후 점심 메뉴를 확인하세요.")
-
-
+        st.warning("로그인 후 점심 메뉴를 확인할 수 있습니다.")
 
 # 탭 5: 뒤풀이 신청
 with tab5:
