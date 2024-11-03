@@ -38,6 +38,23 @@ def load_data():
 # 데이터 로드
 data = load_data()
 
+def login():
+    if "이름" not in data.columns or "입장코드" not in data.columns:
+        st.error("필수 열이 데이터에서 누락되었습니다.")
+        return
+
+    name = st.session_state.input_name.strip()
+    entrance_code = st.session_state.input_code.strip()
+
+    # Filter user_data using the correct columns
+    user_data = data[(data['이름'] == name) & (data['입장코드'] == entrance_code)]
+    if not user_data.empty:
+        st.session_state.is_logged_in = True
+        st.session_state.name = name
+        st.session_state.entrance_code = entrance_code
+        st.session_state.user_type = user_data.iloc[0]['분류']
+    else:
+        st.sidebar.error(f"이름 또는 입장코드가 잘못되었습니다. (이름: {name}, 입장코드: {entrance_code})")
 # 강좌 정보 사전
 course_info = {
     "초등형 MBTI 클래시파이 : 웹개발스토리와 감정소진없이 학급경영하기": ("김태림쌤", "미정","https://classify.co.kr/"),
