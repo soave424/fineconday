@@ -93,7 +93,7 @@ for column in required_columns:
 # """, unsafe_allow_html=True)
 
 
-if st.session_state.is_logged_in and st.session_state.user_type == "강사"or"연수지원":
+if st.session_state.is_logged_in and st.session_state.user_type == "강사":
     # Retrieve name and entrance_code from session state
     name = st.session_state.get("name", "").strip()
     entrance_code = st.session_state.get("entrance_code", "").strip()
