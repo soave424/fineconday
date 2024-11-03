@@ -5,7 +5,7 @@ import os
 from app import render_sidebar
 
 
-st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="expanded")
+st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="collapsed")
 
 
 
