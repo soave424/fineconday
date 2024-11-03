@@ -250,3 +250,29 @@ with tab4:
 # 탭 5: 뒤풀이 신청
 with tab5:
     st.header("뒤풀이 신청")
+    if not st.session_state.is_logged_in:
+        st.warning("로그인이 필요합니다. 사이드바에서 로그인해주세요.")
+    else:
+        # 로그인한 사용자의 데이터 필터링
+        user_data = data[(data['이름'] == st.session_state.name) & (data['입장코드'] == st.session_state.entrance_code)]
+        
+        if user_data.empty:
+            st.warning("해당 이름과 입장코드로 일치하는 정보를 찾을 수 없습니다.")
+        else:
+            # 뒤풀이 신청 상태 확인
+            participates_in_party = user_data['뒤풀이참가'].iloc[0]
+            payment_confirmed = user_data['뒤풀이입금'].iloc[0]
+            
+            # 조건에 따른 메시지 및 버튼 표시
+            if not participates_in_party:
+                st.info("뒤풀이에 함께 하고 싶다면 신청해주세요.")
+                if st.button("뒤풀이 신청"):
+                    # 뒤풀이참가를 True로 설정하고 CSV 업데이트
+                    data.loc[(data['이름'] == st.session_state.name) & (data['입장코드'] == st.session_state.entrance_code), '뒤풀이참가'] = True
+                    data.to_csv(CSV_PATH, index=False)
+                    st.success("뒤풀이에 신청되었습니다! 새로고침 후 업데이트된 상태를 확인해주세요.")
+            elif participates_in_party and not payment_confirmed:
+                st.info("참가비 확인 중입니다. 아래 계좌에 만원 입금이 완료되었는지 확인해주세요.")
+                st.write("**입금 계좌: 카카오뱅크 7979-48-04052 (김성훈)**")
+            elif participates_in_party and payment_confirmed:
+                st.success("참가가 확정되었습니다. 즐거운 시간 함께 더 보내요!")
