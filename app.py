@@ -133,6 +133,7 @@ with tab1:
     st.markdown(
         """
         <div class="button-container">
+            <h1>공지사항<h1>
             <a class="button-link" href="https://open.kakao.com/o/g141aCVg" target="_blank">오픈채팅방 입장👨🏻‍💻</a>
             <a class="button-link" href="https://bit.ly/econo1109" target="_blank">연수 질문 & 후기📜</a>
         </div>
