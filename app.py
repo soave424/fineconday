@@ -35,6 +35,10 @@ def load_data():
         df = pd.read_csv(CSV_PATH)
         df['이름'] = df['이름'].str.strip()
         df['입장코드'] = df['입장코드'].astype(str).str.strip()
+        df['입장코드'] = df['입장코드'].astype(str).str.zfill(4)
+        df.to_csv(CSV_PATH, index=False)
+
+
         return df
     except FileNotFoundError:
         st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
@@ -43,7 +47,6 @@ def load_data():
 
 # 데이터 로드
 data = load_data()
-
 
 
 # 로그인 함수
