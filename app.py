@@ -18,6 +18,14 @@ st.set_page_config(
 
 st.logo("image/logo.png", size="large", link="https://cafe.naver.com/financialeducation")
 
+# 이미지 토글 상태 초기화
+if "show_image" not in st.session_state:
+    st.session_state["show_image"] = False
+
+# 이미지 토글 함수
+def toggle_image():
+    st.session_state["show_image"] = not st.session_state["show_image"]
+
 # Initialize session state for login tracking
 if "is_logged_in" not in st.session_state:
     st.session_state.is_logged_in = False
@@ -132,10 +140,23 @@ with tab1:
     st.markdown(
         """
         <div class="button-container">
-            <a class="button-link" href="https://241109.streamlit.app/roll" target="_self">강좌신청 확인하기🔍</a>
+            <button onclick="toggleImage()" class="button-link">신청강좌 확인하는 법🔍</button>
             <a class="button-link" href="https://open.kakao.com/o/g141aCVg" target="_blank">오픈채팅방 입장👨🏻‍💻</a>
-            <a class="button-link" href="https://bit.ly/econo1109" target="_blank">연수 질문&후기📜</a>
+            <a class="button-link" href="https://bit.ly/econo1109" target="_blank">연수 질문 & 후기📜</a>
         </div>
+        <div id="image-container" style="display:none; text-align:center;">
+            <img src="image/show.jpg" alt="강좌 신청 확인 방법" style="max-width:100%;">
+        </div>
+        <script>
+            function toggleImage() {
+                var imgContainer = document.getElementById("image-container");
+                if (imgContainer.style.display === "none") {
+                    imgContainer.style.display = "block";
+                } else {
+                    imgContainer.style.display = "none";
+                }
+            }
+        </script>
         """,
         unsafe_allow_html=True
     )

@@ -10,8 +10,7 @@ load_dotenv()
 
 st.set_page_config(page_title="체크인", layout="wide")
 
-# 사이드바 로그인 상태 렌더링
-render_sidebar()
+
 
 # CSV 파일 경로
 CSV_PATH = os.getenv("CSV_FILE_PATH", "data.csv")
