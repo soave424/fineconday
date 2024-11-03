@@ -18,13 +18,6 @@ st.set_page_config(
 
 st.logo("image/logo.png", size="large", link="https://cafe.naver.com/financialeducation")
 
-# 이미지 토글 상태 초기화
-if "show_image" not in st.session_state:
-    st.session_state["show_image"] = False
-
-# 이미지 토글 함수
-def toggle_image():
-    st.session_state["show_image"] = not st.session_state["show_image"]
 
 # Initialize session state for login tracking
 if "is_logged_in" not in st.session_state:
@@ -104,10 +97,19 @@ render_sidebar()
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
 
 # 탭 1: 공지
+
 with tab1:
     st.header("공지사항")
 
     # 버튼 스타일 추가
+    # 이미지 토글 상태 초기화
+    if "show_image" not in st.session_state:
+        st.session_state["show_image"] = False
+
+    # 이미지 토글 함수
+    def toggle_image():
+        st.session_state["show_image"] = not st.session_state["show_image"]
+
     st.markdown("""
         <style>
             .button-container {
@@ -134,11 +136,6 @@ with tab1:
                 background-color: #4ca2bf;
             }
         </style>
-    """, unsafe_allow_html=True)
-
-    # 버튼 3개를 한 줄에 꽉 차게 배치
-    st.markdown(
-        """
         <div class="button-container">
             <button onclick="toggleImage()" class="button-link">신청강좌 확인하는 법🔍</button>
             <a class="button-link" href="https://open.kakao.com/o/g141aCVg" target="_blank">오픈채팅방 입장👨🏻‍💻</a>
