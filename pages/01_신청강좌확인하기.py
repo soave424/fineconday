@@ -28,8 +28,9 @@ render_sidebar()
 def load_data():
     try:
         df = pd.read_csv(CSV_PATH)
-        df['이름'] = df['이름'].str.strip()
-        df['입장코드'] = df['입장코드'].astype(str).str.strip()
+        df.columns = df.columns.str.strip()  # 열 이름 공백 제거
+        if "이름" not in df.columns or "입장코드" not in df.columns:
+            st.error("CSV 파일에 '이름' 또는 '입장코드' 열이 없습니다.")
         return df
     except FileNotFoundError:
         st.error("CSV 파일을 찾을 수 없습니다. 경로를 확인해주세요.")
