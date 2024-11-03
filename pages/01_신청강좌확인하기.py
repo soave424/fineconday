@@ -23,7 +23,7 @@ render_sidebar()
 
 
 # CSV 파일 로드 함수
-# @st.cache_data
+@st.cache_data
 # CSV file load function
 def load_data():
     try:
