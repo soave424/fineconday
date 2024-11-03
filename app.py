@@ -269,9 +269,9 @@ with tab5:
                     # 뒤풀이참가를 True로 설정하고 CSV 업데이트
                     data.loc[(data['이름'] == st.session_state.name) & (data['입장코드'] == st.session_state.entrance_code), '뒤풀이참가'] = True
                     data.to_csv(CSV_PATH, index=False)
-                    st.success("뒤풀이에 신청되었습니다! 참가비를 입금해주세요 : 3333063647260 카카오뱅크  (이조은)3계 참가비 **원을 입금해주세요.")
+                    st.success("뒤풀이에 신청되었습니다! 참가비를 입금해주세요 : 3333063647260 카카오뱅크 (이조은) 참가비 2만원")
             elif participates_in_party and not payment_confirmed:
-                st.info("참가비 확인 중입니다. 아래 계좌에 **입금이 완료되었는지 확인해주세요.")
+                st.info("참가비 확인 중입니다. 계좌 안내 : 3333063647260 카카오뱅크 (이조은) 참가비 2만원")
                 st.write("**입금 계좌: 카카오뱅크 **")
             elif participates_in_party and payment_confirmed:
                 st.success("참가가 확정되었습니다. 즐거운 시간 함께 더 보내요!")
