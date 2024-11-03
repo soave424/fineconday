@@ -26,6 +26,8 @@ if "is_logged_in" not in st.session_state:
     st.session_state.name = ""
     st.session_state.entrance_code = ""
     st.session_state.lunch=""
+if "lunch_menu" not in st.session_state:
+    st.session_state.lunch_menu = ""  # 기본값 설정
 
 # CSV 파일 로드 함수
 # @st.cache_data
