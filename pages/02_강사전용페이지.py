@@ -73,13 +73,13 @@ for column in required_columns:
     if column not in data.columns:
         data[column] = ""
 
-# 페이지 제목과 홈 버튼
-st.markdown("""
-    <div class="title-button-container">
-        <h1>강사전용 페이지</h1>
-        <a href="/" class="home-button">홈으로</a>
-    </div>
-""", unsafe_allow_html=True)
+# # 페이지 제목과 홈 버튼
+# st.markdown("""
+#     <div class="title-button-container">
+#         <h1>강사전용 페이지</h1>
+#         <a href="/" class="home-button">홈으로</a>
+#     </div>
+# """, unsafe_allow_html=True)
 
 # 강좌 선택
 selected_course = st.selectbox("강좌를 선택하세요:", options=list(course_info.keys()))
