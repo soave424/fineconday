@@ -70,6 +70,7 @@ def logout():
     st.session_state.user_type = None
     st.session_state.name = ""
     st.session_state.entrance_code = ""
+    st.session_state.lunch_menu=""
 
 # Sidebar login UI rendering function
 def render_sidebar():
@@ -97,6 +98,30 @@ render_sidebar()
 
 # 탭 생성
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["✅공지", "📚강좌 정보", "🗺️찾아오는 길","🍲점심 안내", "🍻뒷풀이 신청"])
+
+# 점심 메뉴와 대응 이미지, 설명 매핑
+menu_details = {
+    "샌드위치: 서브웨이 에그마요세트 (샌드위치+콜라 구성, 4,800원)": {
+        "image": "lunch1egg.png",
+        "message": "* 샌드위치를 드시는 선생님께서는 본인 자리 뒷정리 \"반드시\" 부탁 드리겠습니다!"
+    },
+    "식당: 팔당반점(짜장면, 5,000원)": {
+        "image": "lunch2zz.png",
+        "message": "팔당반점으로 가는 길은...."
+    },
+    "식당: 팔당반점(짬뽕, 7,000원)": {
+        "image": "lunch3bb.png",
+        "message": "팔당반점으로 가는 길은...."
+    },
+    "제가 알아서 먹겠습니다!": {
+        "image": "lunch4self.png",
+        "message": "즐거운 식사 시간을 보내고 1시 10분에 만나요~"
+    },
+    "미응답": {
+        "image": "",
+        "message": "점심메뉴를 신청하지 않았습니다. 근처 식당을 이용해서 자유롭게 식사 후 1시 10분에 뵙겠습니다."
+    }
+}
 
 # 탭 1: 공지
 with tab1:
@@ -193,27 +218,45 @@ with tab3:
 
 # 탭 4: 점심 안내
 with tab4:
+    selected_lunch_menu = st.session_state.lunch_menu
     st.header("점심 안내")
-    st.subheader("선택한 점심 메뉴")
-    if st.session_state.lunch_menu:
-        st.write(f"- {st.session_state.lunch_menu}")
-    else:
-        st.warning("선택한 점심 메뉴가 없습니다.")
-    
-    st.markdown("""
-    ✅ 점심 식사
-    참가 확정 후 희망하는 분들에 한해
-    도시락 및 근처 식당 예약을 받고 있습니다. 
-    """)
-    st.markdown(
-    """
-    <div class="button-container">
-        <a class="button-link" href="https://forms.gle/QfXYQrMgHWakHfux8" target="_self">점심메뉴 신청하기🌯</a>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-    st.image("image/menu.png", caption="", use_column_width=True)
+    if selected_lunch_menu:
+            # 점심 메뉴 정보 설정
+            lunch_info = menu_details.get(selected_lunch_menu, {"image": "", "message": "선택한 점심 메뉴가 없습니다."})
+            image_path = lunch_info["image"]
+            message = lunch_info["message"]
+
+            # 1:2 비율의 다단 레이아웃 구성
+            col1, col2 = st.columns([1, 2])
+
+            with col1:
+                # 이미지가 있을 경우만 표시
+                if image_path:
+                    st.image(f"image/{image_path}", use_column_width=True)
+
+            with col2:
+                # 해당 메뉴 설명 메시지 표시
+                st.write(message)
+
+        else:
+            # 로그인하지 않거나 선택된 메뉴가 없는 경우
+            st.write("로그인이 필요합니다. 사이드바에서 로그인 후 점심 메뉴를 확인하세요.")
+
+
+#     st.markdown("""
+#     ✅ 점심 식사
+#     참가 확정 후 희망하는 분들에 한해
+#     도시락 및 근처 식당 예약을 받고 있습니다. 
+#     """)
+#     st.markdown(
+#     """
+#     <div class="button-container">
+#         <a class="button-link" href="https://forms.gle/QfXYQrMgHWakHfux8" target="_self">점심메뉴 신청하기🌯</a>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+#     st.image("image/menu.png", caption="", use_column_width=True)
 
 
 # 탭 5: 뒷풀이 신청
