@@ -158,7 +158,7 @@ with tab1:
             }
         </style>
     """, unsafe_allow_html=True)
-
+    st.header("공지사항")
     # 버튼 3개를 한 줄에 꽉 차게 배치
     st.markdown(
         """
