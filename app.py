@@ -25,6 +25,7 @@ if "is_logged_in" not in st.session_state:
     st.session_state.user_type = None
     st.session_state.name = ""
     st.session_state.entrance_code = ""
+    st.session_state.lunch=""
 
 # CSV 파일 로드 함수
 # @st.cache_data
@@ -59,6 +60,7 @@ def login():
         st.session_state.name = name
         st.session_state.entrance_code = entrance_code
         st.session_state.user_type = user_data.iloc[0]['분류']
+        st.session_state.lunch_menu = user_data['점심메뉴'].values[0]
     else:
         st.sidebar.error(f"이름 또는 입장코드가 잘못되었습니다. 다시 입력해주세요. (이름: {name}, 입장코드: {entrance_code})")
 
@@ -191,20 +193,12 @@ with tab3:
 
 # 탭 4: 점심 안내
 with tab4:
-    lunch_menu = data['점심메뉴'].dropna().unique()  # NaN 제거 후, 고유 메뉴만 가져오기
-    for menu in lunch_menu:
-        st.write(f"- {menu}")
-
-    st.markdown(
-    """
-    <div class="button-container">
-        <a class="button-link" href="https://forms.gle/QfXYQrMgHWakHfux8" target="_self">점심메뉴 신청하기🌯</a>
-    </div>
-    """,
-    unsafe_allow_html=True
-    )
-    
     st.header("점심 안내")
+    st.subheader("선택한 점심 메뉴")
+    if st.session_state.lunch_menu:
+        st.write(f"- {st.session_state.lunch_menu}")
+    else:
+        st.warning("선택한 점심 메뉴가 없습니다.")
     
     st.markdown("""
     ✅ 점심 식사
