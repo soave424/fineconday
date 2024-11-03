@@ -7,8 +7,7 @@ from app import render_sidebar
 
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="expanded")
 
-# 사이드바 로그인 상태 렌더링
-render_sidebar()
+
 
 # CSV 파일 경로 설정
 CSV_PATH = st.secrets["CSV_FILE_PATH"]
@@ -77,7 +76,7 @@ for column in required_columns:
 # 페이지 제목과 홈 버튼
 st.markdown("""
     <div class="title-button-container">
-        <h1>강사용 등록부 확인 및 관리</h1>
+        <h1>강사전용 페이지</h1>
         <a href="/" class="home-button">홈으로</a>
     </div>
 """, unsafe_allow_html=True)

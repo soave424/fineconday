@@ -8,8 +8,7 @@ from app import render_sidebar
 # Page configuration
 st.set_page_config(layout="wide", page_icon="image/pre.png", initial_sidebar_state="expanded")
 
-# 사이드바 로그인 상태 렌더링
-render_sidebar()
+
 
 # Load environment variables
 load_dotenv()
