@@ -246,24 +246,7 @@ with tab4:
         st.write("로그인이 필요합니다. 사이드바에서 로그인 후 점심 메뉴를 확인하세요.")
 
 
-#     st.markdown("""
-#     ✅ 점심 식사
-#     참가 확정 후 희망하는 분들에 한해
-#     도시락 및 근처 식당 예약을 받고 있습니다. 
-#     """)
-#     st.markdown(
-#     """
-#     <div class="button-container">
-#         <a class="button-link" href="https://forms.gle/QfXYQrMgHWakHfux8" target="_self">점심메뉴 신청하기🌯</a>
-#     </div>
-#     """,
-#     unsafe_allow_html=True
-# )
-#     st.image("image/menu.png", caption="", use_column_width=True)
-
 
 # 탭 5: 뒤풀이 신청
 with tab5:
     st.header("뒤풀이 신청")
-    st.button("뒤풀이 함께해요~")
-    st.button("뒤풀이는 다음기회에~")
