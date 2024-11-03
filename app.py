@@ -164,8 +164,8 @@ with tab1:
         """
         <div class="button-container">
             <h1>공지<h1>
-            <a class="button-link" href="https://open.kakao.com/o/g141aCVg" target="_blank">오픈채팅👨🏻‍💻</a>
-            <a class="button-link" href="https://bit.ly/econo1109" target="_blank">질문&후기📜</a>
+            <a class="button-link" href="https://open.kakao.com/o/g141aCVg" target="_blank">채팅👨🏻‍💻</a>
+            <a class="button-link" href="https://bit.ly/econo1109" target="_blank">질문/후기📜</a>
         </div>
         <div id="image-container" style="display:none; text-align:center;">
             <img src="image/show.jpg" alt="강좌 신청 확인 방법" style="max-width:100%;">
