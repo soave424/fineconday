@@ -75,6 +75,8 @@ def load_data():
 
 # 데이터 로드
 data = load_data()
+selected_course = None
+display_course_name = None
 
 # 기본 열이 없을 경우 추가
 required_columns = ['선택 강좌 1', '선택 강좌 2', '선택 강좌 3', '등록']
