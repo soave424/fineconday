@@ -90,14 +90,14 @@ for column in required_columns:
 #     </div>
 # """, unsafe_allow_html=True)
 
+
 # 강좌 선택
 selected_course = st.selectbox("강좌를 선택하세요:", options=list(course_info.keys()))
 course_instructor, course_code, _ = course_info[selected_course]
 display_course_name = f"{selected_course} ({course_instructor})"
 
 # 강좌 코드 입력
-st.header(f"{st.session_state.entrance_code}")
-entered_code = st.text_input("강좌 코드를 입력하세요", type="password")
+entered_code = st.session_state.entrance_code
 
 
 # 조회 버튼이 눌리면 강좌 코드 확인 후 필터링 수행
