@@ -18,8 +18,6 @@ if "is_logged_in" not in st.session_state:
     st.session_state.name = ""
     st.session_state.entrance_code = ""
 
-# 사이드바 로그인 상태 렌더링
-render_sidebar()
 
 
 # CSV 파일 로드 함수

@@ -74,7 +74,7 @@ def render_sidebar():
         if not st.session_state.is_logged_in:
             st.radio("로그인 유형 선택", ["연수참여", "강사", "운영지원"], key="user_type_selection")
             st.text_input("이름", key="input_name")
-            st.text_input("입장코드", key="input_ecode", type="password")
+            st.text_input("입장코드(핸드폰 뒷자리)", key="input_ecode", type="password")
             if st.button("로그인"):
                 login()
         else:
@@ -88,7 +88,7 @@ def render_sidebar():
             st.sidebar.success(f"{st.session_state.name} 선생님! ({st.session_state.entrance_code}) {welcome_message}")
             if st.button("로그아웃"):
                 logout()
-                
+
 # 메인 페이지에서 사이드바 렌더링
 render_sidebar()
 
