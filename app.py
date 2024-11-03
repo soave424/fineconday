@@ -265,3 +265,5 @@ with tab4:
 # 탭 5: 뒤풀이 신청
 with tab5:
     st.header("뒤풀이 신청")
+    st.button("뒤풀이 함께해요~")
+    st.button("뒤풀이는 다음기회에~")
