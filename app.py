@@ -271,7 +271,7 @@ with tab5:
                     data.to_csv(CSV_PATH, index=False)
                     st.success("뒤풀이에 신청되었습니다! 참가비를 입금해주세요 : 3333063647260 카카오뱅크 (이조은) 참가비 2만원")
             elif participates_in_party and not payment_confirmed:
-                st.info("참가비 확인 중입니다. 계좌 안내 : 3333063647260 카카오뱅크 (이조은) 참가비 2만원")
-                st.write("**입금 계좌: 카카오뱅크 **")
+                st.info("참가비 확인 중입니다.")
+                st.write("**입금 계좌: 3333063647260 카카오뱅크 (이조은),참가비 2만원 ")
             elif participates_in_party and payment_confirmed:
                 st.success("참가가 확정되었습니다. 즐거운 시간 함께 더 보내요!")
