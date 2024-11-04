@@ -21,7 +21,7 @@ if "is_logged_in" not in st.session_state:
 
 
 # CSV 파일 로드 함수
-@st.cache_data
+# @st.cache_data
 # CSV file load function
 def load_data():
     try:
