@@ -8,7 +8,7 @@ from app import render_sidebar
 # Load environment variables
 load_dotenv()
 
-st.set_page_config(page_title="체크인", layout="wide")
+st.set_page_config(page_title="체크인", layout="wide", initial_sidebar_state="collapsed")
 
 
 
