@@ -108,7 +108,7 @@ if access_code == "z733":
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/1_xfjGFODkhM0YLj1LbIDhJV8ENgSmAz6JknI7Zhty2Q/edit?gid=456685248#gid=456685248" target="_blank">점심메뉴신청</a>
         </div>
         """, unsafe_allow_html=True)
-    
+    # 점심 메뉴별 명단 조회 섹션
     st.title("점심 메뉴별 명단 조회")
 
     # 점심 메뉴 옵션 목록 추출
@@ -126,9 +126,19 @@ if access_code == "z733":
         filtered_data = filtered_data[['이름', '지역']].reset_index(drop=True)
         filtered_data.index += 1  # 번호를 1부터 시작하도록 설정
         filtered_data.rename_axis('번호', inplace=True)
-        st.table(filtered_data)
+        
+        # 체크박스 열 생성
+        checked_list = []
+        for index, row in filtered_data.iterrows():
+            checked = st.checkbox(f"{row['이름']} - {row['지역']}", key=f"{row['이름']}_{row['지역']}")
+            checked_list.append((row['이름'], row['지역'], checked))
+        
+        # 체크된 항목 표시 (옵션)
+        st.write("체크된 항목:")
+        for name, region, checked in checked_list:
+            if checked:
+                st.write(f"{name} ({region})")
     else:
         st.warning(f"'{selected_menu}' 메뉴를 선택한 사용자가 없습니다.")
-
 else:
     st.warning("올바른 코드를 입력하세요.")
