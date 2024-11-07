@@ -105,7 +105,10 @@ if access_code == "z733":
         <div class="button-container">
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_blank">신청시트원본</a>
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?gid=0#gid=0" target="_blank">강좌별명단</a>
-        </div>
+            <a class="button-link" href="https://docs.google.com/spreadsheets/d/1_xfjGFODkhM0YLj1LbIDhJV8ENgSmAz6JknI7Zhty2Q/edit?gid=456685248#gid=456685248
+" target="_blank">점심메뉴신청</a>
+
+                   </div>
         """, unsafe_allow_html=True)
 
 else:
