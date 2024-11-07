@@ -111,24 +111,24 @@ if access_code == "z733":
     
     st.title("점심 메뉴별 명단 조회")
 
-# 점심 메뉴 옵션 목록 추출
-lunch_options = data['점심메뉴'].dropna().unique()
+    # 점심 메뉴 옵션 목록 추출
+    lunch_options = data['점심메뉴'].dropna().unique()
 
-# 메뉴 선택
-selected_menu = st.selectbox("점심 메뉴를 선택하세요:", lunch_options)
+    # 메뉴 선택
+    selected_menu = st.selectbox("점심 메뉴를 선택하세요:", lunch_options)
 
-# 선택한 메뉴에 해당하는 사용자 필터링
-filtered_data = data[data['점심메뉴'] == selected_menu]
+    # 선택한 메뉴에 해당하는 사용자 필터링
+    filtered_data = data[data['점심메뉴'] == selected_menu]
 
-if not filtered_data.empty:
-    st.write(f"**'{selected_menu}' 메뉴를 선택한 명단:**")
-    # 필요한 열만 선택하여 '번호'와 함께 출력
-    filtered_data = filtered_data[['이름', '지역']].reset_index(drop=True)
-    filtered_data.index += 1  # 번호를 1부터 시작하도록 설정
-    filtered_data.rename_axis('번호', inplace=True)
-    st.table(filtered_data)
-else:
-    st.warning(f"'{selected_menu}' 메뉴를 선택한 사용자가 없습니다.")
+    if not filtered_data.empty:
+        st.write(f"**'{selected_menu}' 메뉴를 선택한 명단:**")
+        # 필요한 열만 선택하여 '번호'와 함께 출력
+        filtered_data = filtered_data[['이름', '지역']].reset_index(drop=True)
+        filtered_data.index += 1  # 번호를 1부터 시작하도록 설정
+        filtered_data.rename_axis('번호', inplace=True)
+        st.table(filtered_data)
+    else:
+        st.warning(f"'{selected_menu}' 메뉴를 선택한 사용자가 없습니다.")
 
 else:
     st.warning("올바른 코드를 입력하세요.")
