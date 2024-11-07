@@ -133,11 +133,6 @@ if access_code == "z733":
             checked = st.checkbox(f"{row['이름']} - {row['지역']}", key=f"{row['이름']}_{row['지역']}")
             checked_list.append((row['이름'], row['지역'], checked))
         
-        # 체크된 항목 표시 (옵션)
-        st.write("체크된 항목:")
-        for name, region, checked in checked_list:
-            if checked:
-                st.write(f"{name} ({region})")
     else:
         st.warning(f"'{selected_menu}' 메뉴를 선택한 사용자가 없습니다.")
 else:
