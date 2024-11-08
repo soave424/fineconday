@@ -123,7 +123,7 @@ if access_code == "z733":
 
         # Add a checkbox for each row to display name (region - registration status)
         for idx, row in filtered_data.iterrows():
-            registered_status = "등록" if row['등록'] else "미등록"
+            registered_status = "true" if row['등록'] else "false"
             label = f"{row['이름']} ({row['지역']} - {registered_status})"
             st.checkbox(label, key=f"{row['이름']}_{row['지역']}")
     else:
