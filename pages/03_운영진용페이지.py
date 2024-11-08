@@ -106,9 +106,28 @@ if access_code == "z733":
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_blank">신청시트원본</a>
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?gid=0#gid=0" target="_blank">강좌별명단</a>
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/1_xfjGFODkhM0YLj1LbIDhJV8ENgSmAz6JknI7Zhty2Q/edit?gid=456685248#gid=456685248" target="_blank">점심메뉴신청</a>
-
         </div>
         """, unsafe_allow_html=True)
+    
+     # Extract unique lunch options
+    lunch_options = data['점심메뉴'].dropna().unique()
+
+    # Select a lunch option
+    selected_menu = st.selectbox("점심 메뉴를 선택하세요:", lunch_options)
+
+    # Filter data for the selected lunch menu
+    filtered_data = data[data['점심메뉴'] == selected_menu]
+
+    if not filtered_data.empty:
+        st.write(f"**'{selected_menu}' 메뉴를 선택한 명단:**")
+
+        # Add a checkbox for each row to display name (region - registration status)
+        for idx, row in filtered_data.iterrows():
+            registered_status = "등록" if row['등록'] else "미등록"
+            label = f"{row['이름']} ({row['지역']} - {registered_status})"
+            st.checkbox(label, key=f"{row['이름']}_{row['지역']}")
+    else:
+        st.warning(f"'{selected_menu}' 메뉴를 선택한 사용자가 없습니다.")
 
 else:
     st.warning("올바른 코드를 입력하세요.")
