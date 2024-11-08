@@ -70,7 +70,6 @@ if access_code == "z733":
 
   # Display the DataFrame with column headers that can be clicked for sorting
     st.write(f"### 강좌별 신청 인원수 (총원: {total_attendees}명)")
-    required_columns = ['이름', '지역', '등록', '점심메뉴']
     st.dataframe(course_counts_df[['강좌명', '강사명', '신청 인원수', '강좌 코드', '장소']], use_container_width=True, height=600)
   # 버튼 스타일 추가
     st.markdown("""
@@ -107,45 +106,9 @@ if access_code == "z733":
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/15_EGHe3-wiHTzuQNksXGdxkVtr9_JqSOao_I9TGfcXw/edit" target="_blank">신청시트원본</a>
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/161CSOh2xYR7wE5fz20gPeWFMTeZ94fFSr6F-k1cVYhg/edit?gid=0#gid=0" target="_blank">강좌별명단</a>
             <a class="button-link" href="https://docs.google.com/spreadsheets/d/1_xfjGFODkhM0YLj1LbIDhJV8ENgSmAz6JknI7Zhty2Q/edit?gid=456685248#gid=456685248" target="_blank">점심메뉴신청</a>
+
         </div>
         """, unsafe_allow_html=True)
-    # 점심 메뉴별 명단 조회 섹션
-    st.title("점심 메뉴별 명단 조회")
 
-    # 점심 메뉴 옵션 목록 추출
-    lunch_options = data['점심메뉴'].dropna().unique()
-
-    # 메뉴 선택
-    selected_menu = st.selectbox("점심 메뉴를 선택하세요:", lunch_options)
-
-    # 선택한 메뉴에 해당하는 사용자 필터링
-    filtered_data = data[data['점심메뉴'] == selected_menu]
-
-    if not filtered_data.empty:
-        st.write(f"**'{selected_menu}' 메뉴를 선택한 명단:**")
-        
-        # '이름(지역_등록)' 형식으로 표시할 수 있도록 데이터 정리
-        filtered_data['이름_지역_등록'] = filtered_data.apply(
-            lambda row: f"{row['이름']}({row['지역']}_{'등록' if row['등록'] else '미등록'})", axis=1
-        )
-        
-        # 번호를 1부터 시작하도록 설정하고, '이름_지역_등록' 열만 보여줌
-        filtered_data = filtered_data[['이름_지역_등록']].reset_index(drop=True)
-        filtered_data.index += 1
-        filtered_data.rename_axis('번호', inplace=True)
-        
-        # 체크박스 열 생성
-        checked_list = []
-        for index, row in filtered_data.iterrows():
-            checked = st.checkbox(row['이름_지역_등록'], key=f"{row['이름_지역_등록']}")
-            checked_list.append((row['이름_지역_등록'], checked))
-        
-        # Display checked items (optional, for verification)
-        st.write("확인된 항목:")
-        for name, checked in checked_list:
-            if checked:
-                st.write(name)
-    else:
-        st.warning(f"'{selected_menu}' 메뉴를 선택한 사용자가 없습니다.")
 else:
     st.warning("올바른 코드를 입력하세요.")
