@@ -30,7 +30,7 @@ if "lunch_menu" not in st.session_state:
     st.session_state.lunch_menu = ""  # 기본값 설정
 
 # CSV 파일 로드 함수
-# @st.cache_data
+@st.cache_data
 # CSV 파일 로드 함수 (매번 새로 로드하도록 설정)
 def load_data():
     try:
