@@ -254,7 +254,7 @@ with tab4:
 
 # 탭 5: 뒤풀이 신청
 with tab5:
-    st.header("뒤풀이 신청")
+    st.header("뒤풀이 신청_치맥(저녁 6시~)")
     if not st.session_state.is_logged_in:
         st.warning("로그인이 필요합니다. 사이드바에서 로그인해주세요.")
     else:
