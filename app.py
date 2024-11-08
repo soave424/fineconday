@@ -211,6 +211,7 @@ with tab1:
 with tab2:
     st.header("강좌 정보")
     st.image("image/special.png", caption="특강 안내", use_column_width=True)
+    st.image("image/timetable.png",caption="강의실 안내", use_column_width=True)
     st.image("image/select1.png", caption="선택강좌 1 안내", use_column_width=True)
     st.image("image/select2.png", caption="선택강좌 2 안내", use_column_width=True)
     st.image("image/select3.png", caption="선택강좌 3 안내", use_column_width=True)
