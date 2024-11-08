@@ -122,17 +122,25 @@ if access_code == "z733":
 
     if not filtered_data.empty:
         st.write(f"**'{selected_menu}' 메뉴를 선택한 명단:**")
+        
         # 필요한 열만 선택하여 '번호'와 함께 출력
-        filtered_data = filtered_data[['이름', '지역']].reset_index(drop=True)
+        filtered_data = filtered_data[['이름', '지역', '등록']].reset_index(drop=True)
         filtered_data.index += 1  # 번호를 1부터 시작하도록 설정
         filtered_data.rename_axis('번호', inplace=True)
         
         # 체크박스 열 생성
         checked_list = []
         for index, row in filtered_data.iterrows():
-            checked = st.checkbox(f"{row['이름']} - {row['지역']}", key=f"{row['이름']}_{row['지역']}")
-            checked_list.append((row['이름'], row['지역'], checked))
+            # Format the name to "이름(지역_등록)"
+            display_name = f"{row['이름']}({row['지역']}_{row['등록']})"
+            checked = st.checkbox(display_name, key=f"{row['이름']}_{row['지역']}")
+            checked_list.append((row['이름'], row['지역'], row['등록'], checked))
         
+        # Display checked items (optional, for verification)
+        st.write("확인된 항목:")
+        for name, region, register, checked in checked_list:
+            if checked:
+                st.write(f"{name} ({region}_{register})")
     else:
         st.warning(f"'{selected_menu}' 메뉴를 선택한 사용자가 없습니다.")
 else:
