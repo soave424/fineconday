@@ -59,7 +59,7 @@ def login():
 # 강좌 정보 사전
 course_info = {
     "초등형 MBTI 클래시파이 : 웹개발스토리와 감정소진없이 학급경영하기": ("김태림쌤", "6층 리더스홀","https://classify.co.kr/"),
-    "창업과 투자 그리고 기업가정신까지!? 일석삼조 효과의 '어쩌다 초등 사장' 프로젝트": ("쭈니쌤", "6층 강의실","https://blog.naver.com/prologue/PrologueList.naver?blogId=wnsgud3061&skinType=&skinId=&from=menu&userSelectMenu=true"),
+    "창업과 투자 그리고 기업가정신까지!? 일석삼조 효과의 '어쩌다 초등 사장' 프로젝트": ("쭈니쌤", "6층 강의실","https://forms.gle/LZdgk5RTsYrB4Vov6"),
     "경제교육보드게임, 캐쉬플로우": ("박민수쌤", "7층 총회회의실",""),
     "왕초보도 따라하는 학급화폐 1년 로드맵": ("좋아유쌤", "7층 강의실B","https://www.youtube.com/@YuDongHyunTV"),
     "내 아이의 금융 문해력 기르기": ("댈님", "7층 강의실A",""),
